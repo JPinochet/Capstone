@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.commit",1266507669609
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507669890
+error,log,,,"org.tigris.subversion.javahl.ClientException: Merge conflict during commit\nsvn: Commit failed (details follow):\nsvn: File or directory 'FacilityBroker.java' is out of date; try updating\nsvn: resource out of date; try updating\n",1266507670171
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507679390
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266507679828
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1266507687203
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266507689359
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.update",1266507698140
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507698437
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507698937
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266507702781
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266507709359
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507713937
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507724937
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.commit",1266507725015
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507725312
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507725906
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266507728234
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266507931031
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266508915890
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266508916375
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266508921750
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266508925031
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266509049046
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266509050656

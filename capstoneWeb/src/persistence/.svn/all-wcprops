@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence
+END
+BookingTypeBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/capstone/!svn/ver/739/code_base/branches/capstoneWeb/src/persistence/BookingTypeBroker.java
+END
+RateBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence/RateBroker.java
+END
+InvoiceBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence/InvoiceBroker.java
+END
+ClientBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/capstone/!svn/ver/740/code_base/branches/capstoneWeb/src/persistence/ClientBroker.java
+END
+Database.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/741/code_base/branches/capstoneWeb/src/persistence/Database.java
+END
+EmployeeBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence/EmployeeBroker.java
+END
+AdditionalChargeBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence/AdditionalChargeBroker.java
+END
+FacilityBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence/FacilityBroker.java
+END
+OrganizationBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence/OrganizationBroker.java
+END
+ToDoItemBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence/ToDoItemBroker.java
+END
+BookingBroker.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/persistence/BookingBroker.java
+END

@@ -1,0 +1,206 @@
+package persistence;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import exceptions.DatabaseConnectionException;
+import problemDomain.Rate;
+
+/**
+ * @author kerri
+ * 
+ */
+public class RateBroker implements Broker {
+	private Database db = new Database();
+	private static RateBroker broker;
+
+	private RateBroker() throws DatabaseConnectionException {
+		
+	}
+
+	/**
+	 * Gets the broker instance
+	 * 
+	 * @return The current broker instance
+	 * @throws DatabaseConnectionException  is thrown if DB connection fails
+	 */
+	public static RateBroker getBroker() throws DatabaseConnectionException {
+		if (broker == null) {
+			broker = new RateBroker();
+		}
+		return broker;
+	}
+
+	/**
+	 * Closes db connection
+	 * @see persistence.Broker#close()
+	 */
+	public void close() {
+		db.close();
+		broker = null;
+	}
+
+	/**
+	 * Gets all information from Database for that table
+	 * @return list of requested rates
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @see persistence.Broker#getAll()
+	 */
+	public List<Rate> getAll() throws DatabaseConnectionException {
+		String query = "SELECT * FROM rate";
+		ResultSet result = db.select(query);
+
+		ArrayList<Rate> rates = new ArrayList<Rate>();
+
+		try {
+			while (result.next()) {
+				int id = result.getInt("rate_id");
+				String name = result.getString("name");
+				String description = result.getString("description");
+				double rate = result.getDouble("rate");
+				double damageDeposit = result.getDouble("damageDeposit");
+				double bookingDeposit = result.getDouble("bookingDeposit");
+				boolean isHourly = result.getBoolean("isHourly");
+				Date validStartTime = result.getDate("validStartTime");
+				Date validEndTime = result.getDate("validEndTime");
+				boolean sunday = result.getBoolean("sunday");
+				boolean monday = result.getBoolean("monday");
+				boolean tuesday = result.getBoolean("tuesday");
+				boolean wednesday = result.getBoolean("wednesday");
+				boolean thrusday = result.getBoolean("thrusday");
+				boolean friday = result.getBoolean("friday");
+				boolean saturday = result.getBoolean("saturday");
+
+				Rate r = new Rate(id, name, description, rate, damageDeposit, bookingDeposit, isHourly, validStartTime, validEndTime, sunday, monday, tuesday, wednesday, thrusday, friday, saturday);
+
+				rates.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return rates;
+
+	}
+
+	/**
+	 * If id exists information in rate table is updated
+	 * If id != exist information is inserted into rate table
+	 * @return true/false if the object is valid.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @see persistence.Broker#persist(java.lang.Object)
+	 */
+	public boolean persist(Object o) throws DatabaseConnectionException {
+		Rate rate = (Rate) o;
+
+		String query;
+
+		if (rate.getId() != 0) {
+			query = "UPDATE rate SET name='" + rate.getName() + "', description='" + rate.getDescription() + "', rate='" + rate.getRate() + "', damageDeposit='"
+						+ rate.getDamageDeposit() + "', bookingDeposit='" + rate.getBookingDeposit() + "', isHourly='" + rate.isHourly() + "', "
+						+ "validStartTime='" + rate.getValidStartTime() + "', validEndTime='" + rate.getValidEndTime() + "', "
+						+ "sunday='" + rate.isSunday() + "', monday='" + rate.isMonday() + "', tuesday='" + rate.isTuesday() + "', "
+						+ "wednesday='" + rate.isWednesday() + "', thursday='" + rate.isThursday() + "', friday='" + rate.isFriday() + "', "
+						+ "saturday='" + rate.isSaturday() + "' WHERE rate_id='" + rate.getId() + "'";
+			db.update(query);
+		} else {
+			query = "INSERT INTO rate VALUES('0', '" + rate.getName() + "', '" + rate.getDescription() + "', '" + rate.getRate() + "', '" + rate.getDamageDeposit() + "', '"
+					+ rate.getBookingDeposit() +"', '" + rate.isHourly() + "', '" + rate.getValidStartTime() + "', '" + rate.getValidEndTime() + "', '" + rate.isSunday() + "', '" + 
+					rate.isMonday() + "', '" + rate.isTuesday() + "', '" + rate.isWednesday() + "', '" + rate.isThursday() + "', '" + rate.isFriday() + "', '" + rate.isSaturday() + "')";
+			db.update(query);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Deletes information from rate table where rate_id = rate.getId
+	 * If id does not exist a exception will be thrown.
+	 * @return true/false if the object is valid.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @see persistence.Broker#remove(java.lang.Object)
+	 */
+	public boolean remove(Object o) throws DatabaseConnectionException {
+		Rate rate = (Rate) o;
+		String query;
+
+		query = "DELETE FROM rate WHERE rate_id='" + rate.getId() + "'";
+		db.update(query);
+		return true;
+	}
+
+	/**
+	 * Gets all required information and adds it to resultSet
+	 * @param id is the id for the rate
+	 * @return An resultSet for requested rate
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public Rate getRateInformation(int id) throws DatabaseConnectionException {
+		String query = "SELECT * FROM rate WHERE rate_id = '" + id + "' LIMIT 1";
+		ResultSet result = db.select(query);
+		Rate r = null;
+
+		try {
+			while (result.next()) {
+				String name = result.getString("name");
+				String description = result.getString("description");
+				double rate = result.getDouble("rate");
+				double damageDeposit = result.getDouble("damageDeposit");
+				double bookingDeposit = result.getDouble("bookingDeposit");
+				boolean isHourly = result.getBoolean("isHourly");
+				Date validStartTime = result.getDate("validStartTime");
+				Date validEndTime = result.getDate("validEndTime");
+				boolean sunday = result.getBoolean("sunday");
+				boolean monday = result.getBoolean("monday");
+				boolean tuesday = result.getBoolean("tuesday");
+				boolean wednesday = result.getBoolean("wednesday");
+				boolean thrusday = result.getBoolean("thrusday");
+				boolean friday = result.getBoolean("friday");
+				boolean saturday = result.getBoolean("saturday");
+
+				r = new Rate(id, name, description, rate, damageDeposit, bookingDeposit, isHourly, validStartTime, validEndTime, sunday, monday, tuesday, wednesday, thrusday, friday, saturday);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return r;
+	}
+	
+	
+	/**
+	 * Searches Database for required information and returns it in a list format
+	 * @param searchText passes message along to database to search than returns a list
+	 * @return list of all requested information from database
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public List<Rate> search(String searchText) throws DatabaseConnectionException
+	{
+		System.out.println("1");
+		String query = "SELECT * " +
+						"FROM rate " +
+						"WHERE name LIKE '%" + searchText +"%' " +
+						"OR rate='" + searchText +"'" ;
+		System.out.println("2");
+		ResultSet result = db.select(query);
+		System.out.println("3");
+		ArrayList<Rate> rates = new ArrayList<Rate>();
+		System.out.println("4");
+		if(result != null){
+			try {
+				while (result.next()) {
+					System.out.println(result.getString("name"));
+					Rate rate = new Rate(result.getInt("rate_id"), result.getString("name"), result.getString("name"), result.getDouble("rate"));
+					rates.add(rate);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		db.close();
+		return rates;	
+	}
+}

@@ -1,0 +1,24 @@
+/**
+ * Feb 24, 2010
+ * AppDriver.java
+ */
+package main;
+
+import hci.MainWindow;
+
+/**
+ * @author Corey Cantley
+ * @version 1.0
+ */
+public class AppDriver {
+
+	/**
+	 * Main application entry point
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		MainWindow mw = new MainWindow();
+		mw.createMainWindow();
+	}
+
+}

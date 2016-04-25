@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use
+END
+AdditionalChargeManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/AdditionalChargeManager.html
+END
+FacilityManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/FacilityManager.html
+END
+OrganizationManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/OrganizationManager.html
+END
+ToDoItemManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/ToDoItemManager.html
+END
+BookingManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/BookingManager.html
+END
+PhoneManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/PhoneManager.html
+END
+BookingTypeManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/BookingTypeManager.html
+END
+RateManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/RateManager.html
+END
+CateringManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/CateringManager.html
+END
+InvoiceManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/InvoiceManager.html
+END
+PaymentManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/PaymentManager.html
+END
+ClientManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/ClientManager.html
+END
+EmployeeManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/capstone/!svn/ver/71/code_base/trunk/doc/logic/class-use/EmployeeManager.html
+END

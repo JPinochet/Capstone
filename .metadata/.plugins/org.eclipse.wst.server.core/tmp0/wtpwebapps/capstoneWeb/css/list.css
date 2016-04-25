@@ -1,0 +1,36 @@
+table.list {
+	border: 1px solid gray;
+	margin: 5px auto;
+}
+table.list tr {
+	background:#A6D785; 
+	color: #344152;
+}
+table.list tr:hover {
+	background: #84BE6A; /*#FFE373; */
+	color: #344152;
+	cursor: pointer;
+}
+table.list td {
+	padding: 1px 5px;
+}
+table.list th {
+	position: relative;
+	background: #6A8455; /*#A6D785;*/
+	color: #BCED91;
+	margin: 0px 1px;
+	font-size: 12px;
+	text-decoration: underline;
+	text-transform: uppercase;
+	padding: 0px 5px;
+	cursor: default;
+}
+table.list th:hover {
+	background:#A6D785; 
+	color: #344152;
+	cursor: pointer;
+}
+table.listInfo {
+	width: 568px;
+	margin: 0px auto;
+}

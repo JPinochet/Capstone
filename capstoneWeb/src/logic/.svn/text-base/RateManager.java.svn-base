@@ -1,0 +1,421 @@
+/**
+ * 
+ */
+package logic;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import exceptions.BookingDepositInvalidException;
+import exceptions.CostInvalidException;
+import exceptions.DamageDepositInvalidException;
+import exceptions.DatabaseConnectionException;
+import exceptions.DescriptionInvalidException;
+import exceptions.NameInvalidException;
+import persistence.RateBroker;
+import problemDomain.Rate;
+
+/**
+ * @author 432873
+ * 
+ */
+public class RateManager extends HttpServlet {
+	private static final long serialVersionUID = -4432033456981799330L;
+	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+	
+	/**
+	 * Initializes RateBroker instance
+	 */
+	RateBroker rb;
+	
+	/**
+	 * Calls HttpServletRequest and HttpServletResponse
+	 * Iterates through rate
+	 * If an error occurs the appropriate exception will be thrown
+	 * @param request is the request that is called
+	 * @param response is the response that is returned
+	 * @throws DamageDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 */
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		if(request.getParameter("q") != null) {
+			try {
+				PrintWriter out = response.getWriter();
+				List<Rate> rates = search(request.getParameter("q"));
+			    Iterator<Rate> iterator = rates.iterator();
+			    while(iterator.hasNext()) {
+			    	Rate rate = iterator.next();
+			        out.println(rate.getName());
+			    }
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (DatabaseConnectionException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		HttpSession session = request.getSession();
+		String doRequest = request.getParameter("do");
+		if(doRequest != null) 
+		{
+			if(doRequest.equals("searchRate"))
+			{
+				if(request.getParameter("search") != null) 
+				{					
+					try 
+					{
+						session.setAttribute("searchResultsRate", search(request.getParameter("searchText"))); 	
+					}
+					catch (DatabaseConnectionException e) 
+					{
+						//TODO: ERROR MESSAGE
+						e.printStackTrace();
+					}
+				}
+				else if(request.getParameter("reset") != null) 
+				{
+					session.setAttribute("searchResultsRate", null);	
+				}
+			}
+			else if(doRequest.equals("manage")) 
+			{
+				int id = Integer.parseInt(request.getParameter("id"));
+				String name = request.getParameter("name");
+				String description = request.getParameter("desc");
+				String rate = request.getParameter("rate");
+				String damageDeposit = request.getParameter("damDep");
+				String bookingDeposit = request.getParameter("bookDep");
+				String[] isHourlyValue = request.getParameterValues("isHourly");
+				String isHourly = "true";
+				if(isHourlyValue != null)
+				{
+					for(int j = 0; j < isHourlyValue.length; j++)
+					{
+						String label = isHourlyValue[j];
+						
+						if(label.equals("daily"))
+							isHourly="false";
+					}
+				}
+				
+				String validStartTime = request.getParameter("validStartTime");
+				String validEndTime = request.getParameter("validEndTime");
+				String[] daysValid = request.getParameterValues("daysValid");
+				String sunday = "false";
+				String monday = "false";
+				String tuesday = "false";
+				String wednesday = "false";
+				String thursday = "false";
+				String friday = "false";
+				String saturday = "false";
+				if( daysValid != null) {
+					for(int i = 0; i < daysValid.length; i++)
+					{
+						String day = daysValid[i];
+						
+						if(day.equals("sunday"))
+							sunday = "true";
+						if(day.equals("monday"))
+							monday = "true";
+						if(day.equals("tuesday"))
+							tuesday = "true";
+						if(day.equals("wednesday"))
+							wednesday = "true";
+						if(day.equals("thursday"))
+							thursday = "true";
+						if(day.equals("friday"))
+							friday = "true";
+						if(day.equals("saturday"))
+							saturday = "true";
+					}
+				}
+				
+				if(request.getParameter("delete") != null && id != 0)
+				{
+					try {
+						Rate rat = new Rate();
+						rat.setId(id);					
+						if(!this.remove(rat)) {
+							//TODO: Error message
+						}
+					}
+					catch (DatabaseConnectionException e) 
+					{
+						e.printStackTrace();
+					}
+					
+				}
+				else if(request.getParameter("save") != null) 
+				{ //We are saving an existing client or creating a new one
+					try 
+					{					
+						if(!this.save(id, name, description, rate, damageDeposit, bookingDeposit, isHourly, validStartTime, validEndTime, sunday, monday, tuesday, wednesday, thursday, friday, saturday)) {
+							System.out.println("not saved?");
+						}
+					} catch (DatabaseConnectionException e) {
+						e.printStackTrace();
+					} catch (CostInvalidException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NameInvalidException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DescriptionInvalidException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BookingDepositInvalidException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DamageDepositInvalidException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+				}
+			}try {
+				response.sendRedirect("ManagementWindow.jsp");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Validates all fields of an rate object to ensure that the fields can be committed
+	 * to the database without error and users correctly inputed information for each field.
+	 * If a field is not valid a appropriate exception will be thrown
+	 * @param rate holds all information required by the rate
+	 * @return true/false if the object is valid.
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws CostInvalidException is thrown if it not a number or !=double
+	 * @throws DamageDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 * @throws BookingDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 */
+	public boolean validate(Rate rate) throws NameInvalidException, DescriptionInvalidException, CostInvalidException, DamageDepositInvalidException, BookingDepositInvalidException
+	{
+		return this.validate(rate.getName(), rate.getDescription(), new Double(rate.getRate()).toString(), 
+				new Double(rate.getDamageDeposit()).toString(), new Double(rate.getBookingDeposit()).toString());
+	}
+	
+	/**
+	 * Validates all fields of an rate object to ensure that the fields can be committed
+	 * to the database without error and users correctly inputed information for each field.
+	 * If a field is not valid a appropriate exception will be thrown
+	 * @param name is the name for the Rate
+	 * @param description is the description for the Rate
+	 * @param rateCost is the rateCost for the Rate
+	 * @param damageDeposit is the damageDeposit for the Rate
+	 * @param bookingDeposit is the bookingDeposit for the Rate
+	 * @return true/false if the object is valid.
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws CostInvalidException is thrown if it not a number or !=double
+	 * @throws DamageDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 * @throws BookingDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 */
+	public boolean validate(String name, String description, String rateCost, String damageDeposit, String bookingDeposit) throws CostInvalidException, NameInvalidException, DescriptionInvalidException, DamageDepositInvalidException, BookingDepositInvalidException
+	{
+		if(name == null || name.equals(""))
+			throw new NameInvalidException("A rate must have a name to identify it.");
+		if(name.length() > 25)
+			throw new NameInvalidException("A rate name cannot excede 25 characters.");
+		if(description != null && !description.equals(""))
+			if(description.length() > 400)
+				throw new DescriptionInvalidException("A description cannot excede 400 characters.");
+		
+		if(rateCost == null || rateCost.equals(""))
+		{
+			throw new CostInvalidException("A rate must have a cost.");
+		}
+		else
+		{
+			try
+			{
+				Double cost = Double.parseDouble(rateCost);
+				if(cost < 0 )
+					throw new CostInvalidException("The cost of a rate cannot be a negative value.");
+			}
+			catch(NumberFormatException nfe)
+			{
+				throw new CostInvalidException("The rate cost must be entered in a numeric format.");
+			}
+		}
+		
+		if(bookingDeposit != null && !bookingDeposit.equals(""))
+		{
+			try
+			{
+				Double bd = Double.parseDouble(bookingDeposit);
+				
+				if(bd < 0)
+					throw new BookingDepositInvalidException("The rate booking deposit cannot be a negative value.");
+			}
+			catch(NumberFormatException nfe)
+			{
+				throw new BookingDepositInvalidException("The rate booking deposit must be entered in a numeric format.");
+			}
+		}
+		
+		if(damageDeposit != null && !damageDeposit.equals(""))
+		{
+			try
+			{
+				Double dd = Double.parseDouble(damageDeposit);
+				
+				if(dd < 0)
+					throw new DamageDepositInvalidException("The rate damage deposit cannot be a negative value.");
+			}
+			catch(NumberFormatException nfe)
+			{
+				throw new DamageDepositInvalidException("The rate damage deposit must be entered in a numeric format.");
+			}
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Searches database for matching rates
+	 * @param query searches database based on query and returns specified information
+	 * @return a List of facility objects that contain the search string.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public List<Rate> search(String query) throws DatabaseConnectionException 
+	{
+		return rb.search(query);
+	}
+
+	/**
+	 * If id exists the rate table is updated, otherwise a new rate is 
+	 * inserted into the table
+	 * @param id is the id for the Rate
+	 * @param name is the name for the Rate
+	 * @param description is the description for the Rate
+	 * @param rateCost is the rateCost for the Rate
+	 * @param damageDeposit is the damageDeposit for the Rate
+	 * @param bookingDeposit is the bookingDeposit for the Rate
+	 * @return true/false if the object is valid.
+	 * @throws CostInvalidException is thrown if it not a number or !=double
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws NumberFormatException is thrown if field is not entered in a proper number format
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws DamageDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 * @throws NumberFormatException is thrown if a field is not in the proper
+	 * number format
+	 * @throws BookingDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 * @throws ParseException 
+	 */
+	public boolean save(int id, String name, String description, String rateCost, String damageDeposit, String bookingDeposit, String isHourly, String validStartTime, String validEndTime, String sunday, String monday, String tuesday, String wednesday, String thursday, String friday, String saturday) throws CostInvalidException, NameInvalidException, DescriptionInvalidException, DatabaseConnectionException, DamageDepositInvalidException, BookingDepositInvalidException, ParseException
+	{
+		Rate rate = null;
+		
+		if(this.validate(name, description, rateCost, damageDeposit, bookingDeposit))
+			rate = new Rate(id, name, description, Double.parseDouble(rateCost), Double.parseDouble(damageDeposit), Double.parseDouble(bookingDeposit), Boolean.parseBoolean(isHourly), sdf.parse(validStartTime), sdf.parse(validEndTime), Boolean.parseBoolean(sunday), Boolean.parseBoolean(monday), Boolean.parseBoolean(tuesday), Boolean.parseBoolean(wednesday), Boolean.parseBoolean(thursday), Boolean.parseBoolean(friday), Boolean.parseBoolean(saturday));
+		
+		return rb.persist(rate);
+	}
+	
+	/**
+	 * If id exists, rate table is updated, if it does not exist it is added to rate 
+	 * table. appropriate exceptions are thrown as needed
+	 * @param rate holds all information required by the rate
+	 * @return true/false if the object is valid.
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws CostInvalidException is thrown if it not a number or !=double
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws DamageDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 * @throws BookingDepositInvalidException is thrown if it is null, <0 or not in 
+	 * the proper number format
+	 */
+	public boolean save(Rate rate) throws NameInvalidException, DescriptionInvalidException, CostInvalidException, DatabaseConnectionException, DamageDepositInvalidException, BookingDepositInvalidException
+	{
+		if(this.validate(rate))
+			return rb.persist(rate);
+		
+		return false;
+	}
+
+	/**
+	 * Deletes information from rate table, where rate_id= rate.getId if the id
+	 * does not exist a exception will be thrown.
+	 * @param rate holds all information required by the rate
+	 * @return true/false if the object is valid.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public boolean remove(Rate rate) throws DatabaseConnectionException 
+	{
+		return rb.remove(rate);
+	}
+	
+	/**
+	 * Closes the RateBroker
+	 */
+	public void close() {
+		rb.close();
+	}
+	
+	/**
+	 * Gets all information from rate table in database
+	 * @return all information for rate table in a list format
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public List<Rate> getRateList() throws DatabaseConnectionException
+	{
+		return rb.getRateList();
+	}
+	
+	public Rate getRateInfo (int rates_id) throws DatabaseConnectionException
+	{
+		return (Rate) rb.getRateInformation(rates_id);
+	}
+	//SERVLET METHODS BELOW
+	
+	/**
+	 * Gets rateBroker instance, if an occurs exception will be thrown.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public RateManager() throws DatabaseConnectionException 
+	{
+		rb = RateBroker.getBroker();
+	}
+	
+	/**
+	 * Gets request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if error 
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Posts request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if error 
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+}

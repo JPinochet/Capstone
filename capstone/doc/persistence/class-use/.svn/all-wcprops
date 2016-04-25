@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use
+END
+BookingBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/BookingBroker.html
+END
+BookingTypeBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/BookingTypeBroker.html
+END
+RateBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/RateBroker.html
+END
+InvoiceBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/InvoiceBroker.html
+END
+ClientBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/ClientBroker.html
+END
+Broker.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/Broker.html
+END
+EmployeeBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/EmployeeBroker.html
+END
+AdditionalChargeBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/AdditionalChargeBroker.html
+END
+FacilityBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/FacilityBroker.html
+END
+OrganizationBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/OrganizationBroker.html
+END
+ToDoItemBroker.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/71/code_base/trunk/doc/persistence/class-use/ToDoItemBroker.html
+END

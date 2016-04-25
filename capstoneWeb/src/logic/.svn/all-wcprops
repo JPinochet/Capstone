@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/logic
+END
+FacilityManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/logic/FacilityManager.java
+END
+OrganizationManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/capstone/!svn/ver/682/code_base/branches/capstoneWeb/src/logic/OrganizationManager.java
+END
+ToDoItemManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/capstone/!svn/ver/682/code_base/branches/capstoneWeb/src/logic/ToDoItemManager.java
+END
+PublicLoginManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/capstone/!svn/ver/734/code_base/branches/capstoneWeb/src/logic/PublicLoginManager.java
+END
+BookingManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/734/code_base/branches/capstoneWeb/src/logic/BookingManager.java
+END
+LoginManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/capstone/!svn/ver/573/code_base/branches/capstoneWeb/src/logic/LoginManager.java
+END
+BookingTypeManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/capstone/!svn/ver/682/code_base/branches/capstoneWeb/src/logic/BookingTypeManager.java
+END
+RateManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/capstone/!svn/ver/682/code_base/branches/capstoneWeb/src/logic/RateManager.java
+END
+InvoiceManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/logic/InvoiceManager.java
+END
+ClientManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/logic/ClientManager.java
+END
+EmployeeManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/src/logic/EmployeeManager.java
+END
+AdditionalChargeManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/capstone/!svn/ver/737/code_base/branches/capstoneWeb/src/logic/AdditionalChargeManager.java
+END

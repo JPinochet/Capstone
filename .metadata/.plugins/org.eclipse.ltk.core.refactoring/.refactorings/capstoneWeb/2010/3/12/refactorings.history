@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;acal&apos; in &apos;logic.AdditionalChargeManager.search(...)&apos; to &apos;acList&apos;&#x0D;&#x0A;- Original project: &apos;capstoneWeb&apos;&#x0D;&#x0A;- Original element: &apos;logic.AdditionalChargeManager.search(String).acal&apos;&#x0D;&#x0A;- Renamed element: &apos;acal&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;acal&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;logic{AdditionalChargeManager.java[AdditionalChargeManager~search~QString;@acal!2238!2336!2266!2269!QArrayList\&lt;QAdditionalCharge;&gt;;" name="acList" references="true" stamp="1268667823937" version="1.0"/>
+</session>

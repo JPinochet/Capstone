@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+started,bundle,org.eclipse.dltk.validators.ui,1.0.0.v20090610-1638,"org.eclipse.dltk.validators.ui",1266503864343
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503869609
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503873312
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503881000
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503892125
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.commit",1266503892218
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503892531
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503893156
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503897046
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503899171
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266503901906
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266504521578
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266504522187
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266504590968
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266504599687
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266504601718
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266504606921
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266504607093
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266504614390
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266504614515
+error,log,,,"Ignoring template 'getterbody' since validation failed.",1266504615125
+error,log,,,"Ignoring template 'setterbody' since validation failed.",1266504615140
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266504654015
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266504659671
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266504659781

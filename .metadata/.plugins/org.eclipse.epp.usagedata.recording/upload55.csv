@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1266511662984
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266511664234
+closed,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511664234
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511665265
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511665390
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.paste",1266511667734
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1266511668687
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266511669703
+closed,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511669703
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511670765
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511670828
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.paste",1266511674468
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1266511675156
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266511677093
+closed,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511677093
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511687687
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511704125
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.commit",1266511704218
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511704500
+error,log,,,"org.tigris.subversion.javahl.ClientException: Merge conflict during commit\nsvn: Commit failed (details follow):\nsvn: File or directory 'AdditionalChargeBroker.java' is out of date; try updating\nsvn: resource out of date; try updating\n",1266511704656
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511715671
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.update",1266511726000
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511726312
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511726515
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511728656

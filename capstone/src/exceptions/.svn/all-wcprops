@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/capstone/!svn/ver/180/code_base/trunk/src/exceptions
+END
+GivenNameInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/capstone/!svn/ver/133/code_base/trunk/src/exceptions/GivenNameInvalidException.java
+END
+SurnameInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/capstone/!svn/ver/133/code_base/trunk/src/exceptions/SurnameInvalidException.java
+END
+ExceptionSuperClass.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/capstone/!svn/ver/133/code_base/trunk/src/exceptions/ExceptionSuperClass.java
+END
+DatabaseConnectionException.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/capstone/!svn/ver/133/code_base/trunk/src/exceptions/DatabaseConnectionException.java
+END
+UsernameInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/133/code_base/trunk/src/exceptions/UsernameInvalidException.java
+END
+BooleanInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/capstone/!svn/ver/148/code_base/trunk/src/exceptions/BooleanInvalidException.java
+END
+SetupTimeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/capstone/!svn/ver/163/code_base/trunk/src/exceptions/SetupTimeInvalidException.java
+END
+NameInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/capstone/!svn/ver/139/code_base/trunk/src/exceptions/NameInvalidException.java
+END
+DescriptionInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/capstone/!svn/ver/146/code_base/trunk/src/exceptions/DescriptionInvalidException.java
+END
+ProvinceInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/170/code_base/trunk/src/exceptions/ProvinceInvalidException.java
+END
+AddressInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/capstone/!svn/ver/170/code_base/trunk/src/exceptions/AddressInvalidException.java
+END
+EmailInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/capstone/!svn/ver/170/code_base/trunk/src/exceptions/EmailInvalidException.java
+END
+NumberInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/capstone/!svn/ver/180/code_base/trunk/src/exceptions/NumberInvalidException.java
+END
+DiscountInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/147/code_base/trunk/src/exceptions/DiscountInvalidException.java
+END
+ScheduleInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/179/code_base/trunk/src/exceptions/ScheduleInvalidException.java
+END
+PostalCodeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/capstone/!svn/ver/170/code_base/trunk/src/exceptions/PostalCodeInvalidException.java
+END
+TearDownTimeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/capstone/!svn/ver/164/code_base/trunk/src/exceptions/TearDownTimeInvalidException.java
+END
+PasswordInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/capstone/!svn/ver/133/code_base/trunk/src/exceptions/PasswordInvalidException.java
+END
+CountryInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/capstone/!svn/ver/170/code_base/trunk/src/exceptions/CountryInvalidException.java
+END
+CityInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/capstone/!svn/ver/170/code_base/trunk/src/exceptions/CityInvalidException.java
+END
+CostInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/capstone/!svn/ver/139/code_base/trunk/src/exceptions/CostInvalidException.java
+END

@@ -1,0 +1,326 @@
+package logic;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import exceptions.AddressInvalidException;
+import exceptions.BooleanInvalidException;
+import exceptions.CityInvalidException;
+import exceptions.CostInvalidException;
+import exceptions.CountryInvalidException;
+import exceptions.DatabaseConnectionException;
+import exceptions.DateInvalidException;
+import exceptions.DescriptionInvalidException;
+import exceptions.EmailInvalidException;
+import exceptions.GivenNameInvalidException;
+import exceptions.NameInvalidException;
+import exceptions.NumberInvalidException;
+import exceptions.PostalCodeInvalidException;
+import exceptions.ProvinceInvalidException;
+import exceptions.ScheduleInvalidException;
+import exceptions.SetupTimeInvalidException;
+import exceptions.SurnameInvalidException;
+import exceptions.TearDownTimeInvalidException;
+
+import persistence.InvoiceBroker;
+import problemDomain.Booking;
+import problemDomain.Client;
+import problemDomain.Invoice;
+import problemDomain.Payment;
+
+/**
+ * Servlet implementation class InvoiceManager
+ */
+public class InvoiceManager extends HttpServlet {
+	private static final long serialVersionUID = 6823539644247710434L;
+	
+	/**
+	 * Initializes InvoiceBroker instance and set it to null
+	 */
+	InvoiceBroker ib = null;
+	
+	/**
+	 * Initializes Client instance and set it to null
+	 */
+	Client c = null;
+	
+	/**
+	 * Calls HttpServletRequest and HttpServletResponse
+	 * Iterates through Invoice
+	 * If an error occurs the appropriate exception will be thrown
+	 * @param request is the request that is called
+	 * @param response is the response that is returned
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws NumberFormatException is thrown if a field is not in the proper
+	 * number format
+	 */
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		
+	}
+	
+	/**
+	 * Validates all fields of an facility object to ensure that the fields can be committed
+	 * to the database without error and users correctly inputed information for each field.
+	 * If a field is not valid a appropriate exception will be thrown
+	 * If a field is null a appropriate exception will be thrown
+	 * @param date is the date for the invoice
+	 * @param client is the client for the invoice
+	 * @param bookings is the bookings for the invoice
+	 * @param paid is the paid amount for the invoice
+	 * @param paymentDue is the paymentDue for the invoice
+	 * @param description is the description for the invoice
+	 * @param dueDate is the dueDate for the invoice
+	 * @param payments is the payments for the invoice
+	 * @return true/false if the object is valid.
+	 * @throws BooleanInvalidException is thrown if boolean not true/false
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws CostInvalidException is thrown if it not a number or !=double
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws AddressInvalidException is thrown if it is null or has >75 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >63 characters
+	 * @throws GivenNameInvalidException is thrown if it is null or has >65 characters
+	 * @throws ProvinceInvalidException is thrown if it is null or has >2 characters
+	 * @throws PostalCodeInvalidException is thrown if >6 characters, ==6 & !valid or ==5 digits
+	 * @throws CountryInvalidException is thrown if it is null or has >25 characters
+	 * @throws CityInvalidException is thrown if it is null or has >75 characters
+	 * @throws EmailInvalidException is thrown if it is null or has >50 characters
+	 * @throws NumberInvalidException is thrown if setupTime or tearDownTime are not in 
+	 * a numerical format
+	 * @throws TearDownTimeInvalidException is thrown if it is <0 minutes
+	 * @throws SetupTimeInvalidException is thrown if it is <0 minutes
+	 * @throws ScheduleInvalidException Checks Schedule to see if it exists, that time is free,and
+	 *  that it is not to big. if any of these are not true than the exception is thrown.
+	 * @throws NameInvalidException is thrown if name is null or >25 characters
+	 * @throws DateInvalidException is thrown if date is null or the invoice date is before current date
+	 */
+	public boolean validate(String date, Client client, ArrayList<Booking> bookings, String Paid, String paymentDue, String description, String dueDate, ArrayList<Payment> payments) throws BooleanInvalidException, DescriptionInvalidException, CostInvalidException, DatabaseConnectionException, GivenNameInvalidException, SurnameInvalidException, AddressInvalidException, EmailInvalidException, CityInvalidException, CountryInvalidException, PostalCodeInvalidException, ProvinceInvalidException, NameInvalidException, ScheduleInvalidException, SetupTimeInvalidException, TearDownTimeInvalidException, NumberInvalidException, DateInvalidException 
+	{	
+		if(description != null && !description.equals(""))
+			if(description.length() > 400)
+				throw new DescriptionInvalidException("An invoice's description cannot excede 400 characters.");
+		
+		for(int i = 0; i < payments.size(); i ++)
+		{
+			if(Double.isNaN(payments.get(i).getAmount()))
+				throw new CostInvalidException("The value for the price of an Invoice must be entered as a number.");
+			if(payments.get(i).getAmount() < 0)
+				throw new CostInvalidException("The invoice cost cannot be negative.");
+		}
+		
+		if(date == null)
+			throw new DateInvalidException("An invoice must have a date.");
+		if(new Date(date).after(new Date()))
+			throw new DateInvalidException("An invoice date must be before the current date.");
+	
+		if(dueDate == null)
+			throw new DateInvalidException("An invoice must have a date.");
+		if(new Date(dueDate).after(new Date()))
+			throw new DateInvalidException("An invoice date must be before the current date.");
+		
+		return true;
+	}
+	
+	/**
+	 * Validates all fields of an facility object to ensure that the fields can be committed
+	 * to the database without error and users correctly inputed information for each field.
+	 * If a field is not valid a appropriate exception will be thrown
+	 * @param invoice
+	 * @return true/false if the object is valid.
+	 * @throws CostInvalidException is thrown if it not a number or !=double
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws BooleanInvalidException is thrown if boolean not true/false
+	 * @throws DatabaseConnectionException is thrown if DB connection fails 
+	 * @throws AddressInvalidException is thrown if it is null or has >75 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >63 characters
+	 * @throws GivenNameInvalidException is thrown if it is null or has >65 characters
+	 * @throws ProvinceInvalidException is thrown if it is null or has >2 characters
+	 * @throws PostalCodeInvalidException is thrown if >6 characters, ==6 & !valid or ==5 digits
+	 * @throws CountryInvalidException is thrown if it is null or has >25 characters
+	 * @throws CityInvalidException is thrown if it is null or has >75 characters
+	 * @throws EmailInvalidException is thrown if it is null or has >50 characters
+	 * @throws NumberInvalidException is thrown if setupTime or tearDownTime are not in 
+	 * a numerical format
+	 * @throws TearDownTimeInvalidException is thrown if it is <0 minutes
+	 * @throws SetupTimeInvalidException is thrown if it is <0 minutes
+	 * @throws ScheduleInvalidException Checks Schedule to see if it exists, that time is free,and
+	 *  that it is not to big. if any of these are not true than the exception is thrown.
+	 * @throws NameInvalidException is thrown if name is null or >25 characters
+	 * @throws DateInvalidException is thrown if date is null or the invoice date is before current date
+	 */
+	public boolean validate(Invoice invoice) throws CostInvalidException, DescriptionInvalidException, BooleanInvalidException, DatabaseConnectionException, GivenNameInvalidException, SurnameInvalidException, AddressInvalidException, EmailInvalidException, CityInvalidException, CountryInvalidException, PostalCodeInvalidException, ProvinceInvalidException, NameInvalidException, ScheduleInvalidException, SetupTimeInvalidException, TearDownTimeInvalidException, NumberInvalidException, DateInvalidException
+	{
+			return this.validate(invoice.getDate().toString(), invoice.getClient(), invoice.getBookings(), 
+					new Boolean(invoice.getPaid()).toString(), new Double(invoice.getPaymentDue()).toString(), 
+					invoice.getDescription(), invoice.getDueDate().toString(), invoice.getPayments());
+	}
+
+	/**
+	 * Searches the Database for matching Invoices
+	 * @param query searches database based on query and returns specified information
+	 * @return null;
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public List<Invoice> search(Client client) throws DatabaseConnectionException {
+		return ib.getInvoicesForClient(client);
+	}
+
+	/**
+	 * Validates all fields for date, client, bookings, paid, paymentDue, description
+	 * dueDate and payments to ensure that all fields are not null.
+	 * If a field is null a appropriate exception will be thrown
+	 * If id exists, invoice table is updated, if id != exist than information is 
+	 * inserted into Invoice table
+	 * @param date is the date for the invoice
+	 * @param client is the client for the invoice
+	 * @param bookings is the bookings for the invoice
+	 * @param paid is the paid for the invoice
+	 * @param paymentDue is the paymentDue for the invoice
+	 * @param description is the description for the invoice
+	 * @param dueDate is the dueDate for the invoice
+	 * @param payments is the payments for the invoice
+	 * @return true/false if the object is valid.
+	 * @throws BooleanInvalidException is thrown if boolean not true/false
+	 * @throws NumberFormatException 
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws CostInvalidException is thrown if it not a number or !=double
+	 * @throws DatabaseConnectionException is thrown if DB connection fails 
+	 * @throws AddressInvalidException is thrown if it is null or has >75 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >63 characters
+	 * @throws GivenNameInvalidException is thrown if it is null or has >65 characters
+	 * @throws ProvinceInvalidException is thrown if it is null or has >2 characters
+	 * @throws PostalCodeInvalidException is thrown if >6 characters, ==6 & !valid or ==5 digits
+	 * @throws CountryInvalidException is thrown if it is null or has >25 characters
+	 * @throws CityInvalidException is thrown if it is null or has >75 characters
+	 * @throws EmailInvalidException is thrown if it is null or has >50 characters
+	 * @throws NumberInvalidException is thrown if setupTime or tearDownTime are not in 
+	 * a numerical format
+	 * @throws TearDownTimeInvalidException is thrown if it is <0 minutes
+	 * @throws SetupTimeInvalidException is thrown if it is <0 minutes
+	 * @throws ScheduleInvalidException Checks Schedule to see if it exists, that time is free,and
+	 *  that it is not to big. if any of these are not true than the exception is thrown.
+	 * @throws NameInvalidException is thrown if name is null or >25 characters
+	 * @throws DateInvalidException is thrown if date is null or the invoice date is before current date
+	 */
+	public boolean save(int id, String date, Client client, ArrayList<Booking> bookings, String paid, String paymentDue, String description, String dueDate, ArrayList<Payment> payments) throws NumberFormatException, BooleanInvalidException, DescriptionInvalidException, CostInvalidException, DatabaseConnectionException, GivenNameInvalidException, SurnameInvalidException, AddressInvalidException, EmailInvalidException, CityInvalidException, CountryInvalidException, PostalCodeInvalidException, ProvinceInvalidException, NameInvalidException, ScheduleInvalidException, SetupTimeInvalidException, TearDownTimeInvalidException, NumberInvalidException, DateInvalidException 
+	{
+		Invoice invoice = null;
+		
+		if(validate(date, client, bookings, paid, paymentDue, description, dueDate, payments))
+			invoice = new Invoice(id, new Date(date), client, bookings, Boolean.parseBoolean(paid), Double.parseDouble(paymentDue), description, new Date(dueDate), payments);
+		
+		return ib.persist(invoice);
+	}
+	
+	/**
+	 * Validates all fields for invoice to ensure that all fields are not null.
+	 * If a field is null a appropriate exception will be thrown
+	 * If id exists, invoice table is updated, if id != exist than information is 
+	 * inserted into Invoice table
+	 * @param invoice the invoice object to validate and persist
+	 * @return true/false if the object was saved.
+	 * @throws CostInvalidException is thrown if it not a number or !=double
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws BooleanInvalidException is thrown if boolean not true/false
+	 * @throws DatabaseConnectionException is thrown if DB connection fails 
+	 * @throws AddressInvalidException is thrown if it is null or has >75 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >63 characters
+	 * @throws GivenNameInvalidException is thrown if it is null or has >65 characters
+	 * @throws ProvinceInvalidException is thrown if it is null or has >2 characters
+	 * @throws PostalCodeInvalidException is thrown if >6 characters, ==6 & !valid or ==5 digits 
+	 * @throws CountryInvalidException is thrown if it is null or has >25 characters
+	 * @throws CityInvalidException is thrown if it is null or has >75 characters
+	 * @throws EmailInvalidException is thrown if it is null or has >50 characters
+	 * @throws NumberInvalidException is thrown if setupTime or tearDownTime are not in 
+	 * a numerical format
+	 * @throws TearDownTimeInvalidException is thrown if it is <0 minutes
+	 * @throws SetupTimeInvalidException is thrown if it is <0 minutes 
+	 * @throws ScheduleInvalidException Checks Schedule to see if it exists, that time is free,and
+	 *  that it is not to big. if any of these are not true than the exception is thrown.
+	 * @throws NameInvalidException is thrown if name is null or >25 characters
+	 * @throws DateInvalidException is thrown if date is null or the invoice date is before current date
+	 */
+	public boolean save(Invoice invoice) throws CostInvalidException, DescriptionInvalidException, BooleanInvalidException, DatabaseConnectionException, GivenNameInvalidException, SurnameInvalidException, AddressInvalidException, EmailInvalidException, CityInvalidException, CountryInvalidException, PostalCodeInvalidException, ProvinceInvalidException, NameInvalidException, ScheduleInvalidException, SetupTimeInvalidException, TearDownTimeInvalidException, NumberInvalidException, DateInvalidException
+	{
+		if(this.validate(invoice))
+			return ib.persist(invoice);
+		
+		return false;
+	}
+
+	/**
+	 * Deletes information from invoice table where invoice_id = invoice_getId
+	 * If Id does not exist a exception will be thrown
+	 * @param invoice the invoice object to remove 
+	 * @return true/false if the object is valid.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public boolean remove(Invoice invoice) throws DatabaseConnectionException 
+	{
+		return ib.remove(invoice);
+	}
+	
+	/**
+	 * @param invoice_id is id for specific id
+	 * @return boolean
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public boolean isPaid(int invoice_id) throws DatabaseConnectionException
+	{
+		Invoice invoice = new Invoice(invoice_id);
+		return ib.isPaid(invoice);
+	}
+	
+	public double paymentOwed(int invoice_id) throws DatabaseConnectionException
+	{
+		Invoice invoice = new Invoice(invoice_id);
+		return ib.getPaymentOwed(invoice);
+	}
+	
+	public List<Payment> getPayments(int invoice_id) throws DatabaseConnectionException
+	{
+		Invoice invoice = new Invoice(invoice_id);
+		return ib.getPayments(invoice);
+	}
+	
+	/**
+	 * Closes Database connection
+	 */
+	public void close() {
+		ib.close();
+	}
+
+	/**
+	 * Gets the broker instance
+     * @throws DatabaseConnectionException is thrown if DB connection fails 
+	 * @see HttpServlet#HttpServlet()
+     */
+    public InvoiceManager() throws DatabaseConnectionException {
+		ib = InvoiceBroker.getBroker();
+    }
+
+	/**
+	 * Gets request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if error 
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Posts request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if error 
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="293" key="RevertDialog.location.x"/>
+	<item value="20" key="HistoryTableProvider.SVNHistoryPage.Tags"/>
+	<item value="https://svn.coreycantley.com/capstone/code_base/trunk/branches/capstoneWeb" key="UrlCombo.capstone.0"/>
+	<item value="93" key="RevertDialog.location.y"/>
+	<item value="415" key="AnnotateDialog.size.y"/>
+	<item value="438" key="AnnotateDialog.size.x"/>
+	<item value="109" key="UpdateDialog.location.y"/>
+	<item value="421" key="UpdateDialog.location.x"/>
+	<item value="344" key="SwitchDialog.location.x"/>
+	<item value="109" key="SwitchDialog.location.y"/>
+	<item value="438" key="RevertDialog.size.x"/>
+	<item value="415" key="RevertDialog.size.y"/>
+	<item value="421" key="LockDialog.location.x"/>
+	<item value="87" key="LockDialog.location.y"/>
+	<item value="241" key="HistoryTableProvider.SVNHistoryPage.Date"/>
+	<item value="396" key="ChooseUrlDialog.location.x"/>
+	<item value="76" key="ChooseUrlDialog.location.y"/>
+	<item value="481" key="HistoryTableProvider.SVNHistoryPage.Comment"/>
+	<item value="97" key="HistoryTableProvider.SVNHistoryPage.Revision"/>
+	<item value="500" key="CommitDialog.weights.0"/>
+	<item value="500" key="CommitDialog.weights.1"/>
+	<item value="489" key="ChooseUrlDialog.size.x"/>
+	<item value="360" key="ChooseUrlDialog.size.y"/>
+	<item value="371" key="MarkResolvedDialog.location.x"/>
+	<item value="109" key="MarkResolvedDialog.location.y"/>
+	<item value="593" key="SwitchDialog.size.x"/>
+	<item value="192" key="HistoryTableProvider.SVNHistoryPage.Author"/>
+	<item value="421" key="AnnotateDialog.location.x"/>
+	<item value="109" key="AnnotateDialog.location.y"/>
+	<item value="415" key="SwitchDialog.size.y"/>
+	<item value="438" key="UpdateDialog.size.x"/>
+	<item value="415" key="UpdateDialog.size.y"/>
+	<item value="438" key="LockDialog.size.x"/>
+	<item value="447" key="LockDialog.size.y"/>
+	<item value="236" key="CommitDialog.location.y"/>
+	<item value="1408" key="CommitDialog.location.x"/>
+	<item value="538" key="MarkResolvedDialog.size.x"/>
+	<item value="415" key="MarkResolvedDialog.size.y"/>
+	<item value="1024" key="CommitDialog.size.x"/>
+	<item value="551" key="CommitDialog.size.y"/>
+	<section name="CommitWizard">
+		<item value="false" key="ShowCompare"/>
+		<item value="500" key="VWeight2"/>
+		<item value="500" key="VWeight1"/>
+	</section>
+</section>

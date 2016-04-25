@@ -1,0 +1,27 @@
+.cssForm .leftDiv,.cssForm .rightDiv {
+	margin-bottom:5px;
+	float:left;
+}
+.cssForm .leftDiv{
+	/*clear:left;*/
+	text-align: right; 
+	padding-right:2%;
+}
+.cssForm .rightDiv{
+	/*clear:right*/
+}
+.cssForm .error{
+	background-color: red;
+	clear: both;
+	height: 21px;
+}
+
+#errorDesc {
+	color:red;
+	padding: 15px;
+}
+
+.field {
+	padding:7px 0px;
+	clear:both;
+}

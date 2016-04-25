@@ -1,0 +1,331 @@
+/**
+
+
+ * Feb 18, 2010
+ * BookingBroker.java
+ */
+package persistence;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import logic.BookingManager;
+import logic.ClientManager;
+
+import exceptions.DatabaseConnectionException;
+import problemDomain.Booking;
+import problemDomain.Client;
+import problemDomain.Invoice;
+import problemDomain.Payment;
+
+/**
+ * @author cantleyc
+ * 
+ */
+public class InvoiceBroker implements Broker {
+	private Database db = new Database();
+	private static InvoiceBroker broker;
+
+	private InvoiceBroker() {
+		
+	}
+
+	/**
+	 * Gets the broker instance
+	 * 
+	 * @return The current broker instance
+	 * @throws DatabaseConnectionException 
+	 */
+	public static InvoiceBroker getBroker() throws DatabaseConnectionException {
+		if (broker == null) {
+			broker = new InvoiceBroker();
+		}
+		return broker;
+	}
+	
+	/**
+	 * Closes Database connection
+	 * @see persistence.Broker#close()
+	 */
+	public void close() {
+		db.close();
+		broker = null;
+	}
+	
+	/**
+	 * Searches database for all invoices, throws an error since this will never happen
+	 * @see persistence.Broker#getAll()
+	 */
+	@Deprecated
+	public List<Invoice> getAll() {
+		System.err.println("Use getInvoicesForClient. We will never get ALL the invoices in the database");
+		return null;
+	}
+	
+	/**
+	 * If id exists information in invoice table is updated
+	 * If id != exist information is inserted into invoice table
+	 * @return true/false if the object is valid.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @see persistence.Broker#persist(java.lang.Object)
+	 */
+	public boolean persist(Object o) throws DatabaseConnectionException {
+		Invoice invoice = (Invoice) o;
+		String query;
+
+		if (invoice.getId() != -1) {
+			query = "";
+			db.update(query);
+		} else {
+			query = "";
+			db.update(query);
+		}
+		return true;
+	}
+	
+	/**
+	 * Deletes information from rate table where invoice_id = invoice.getId
+	 * If id does not exist a exception will be thrown.
+	 * @return true/false if the object is valid.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @see persistence.Broker#remove(java.lang.Object)
+	 */
+	public boolean remove(Object o) throws DatabaseConnectionException {
+		Invoice invoice = (Invoice) o;
+		String query;
+
+		query = "DELETE FROM invoice WHERE invoice_no='" + invoice.getId() + "'";
+		db.update(query);
+		return true;
+	}
+
+	/**
+	 * Gets all required information adds to resultSet
+	 * @return updated result set, returns invoices for clients where client_id = c.getId
+	 * @throws DatabaseConnectionException 
+	 */
+	public List<Invoice> getInvoicesForClient(Client c) throws DatabaseConnectionException {
+		ClientBroker cb = ClientBroker.getBroker();
+		BookingBroker bb = BookingBroker.getBroker();
+		ArrayList<Invoice> invoices = new ArrayList<Invoice>();
+
+		String query = "SELECT * FROM invoice WHERE client_id='" + c.getId() + "'";
+		ResultSet result = db.select(query);
+
+		try {
+			while (result.next()) {
+				int invoice_no = result.getInt("invoice_no");
+				int client_id = result.getInt("client_id");
+				Date date = result.getDate("date");
+				boolean paid = result.getBoolean("paid");
+				double paymentDue = result.getDouble("paymentDue");
+				String desc = result.getString("description");
+				Date dueDate = result.getDate("dueDate");
+
+				ArrayList<Payment> payments = new ArrayList<Payment>();
+				query = "SELECT * FROM payment WHERE invoice_no='" + invoice_no + "'";
+				ResultSet pResult = db.select(query);
+				
+				/**
+				 * Creates new payment
+				 */
+				while (pResult.next()) {
+					payments.add(new Payment(pResult.getInt("payment_id"), pResult.getDate("paymentDate"), pResult.getDouble("paymentAmount")));
+				}
+				
+				/**
+				 * Creates new invoice
+				 */
+				Invoice invoice = new Invoice(invoice_no, date, cb.getClientInformation(client_id), (ArrayList<Booking>) bb.getBookingsForInvoice(invoice_no), paid, paymentDue,
+						desc, dueDate, payments);
+				invoices.add(invoice);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		/**
+		 * Closes broker instances
+		 */
+		cb.close();
+		bb.close();
+		return invoices;
+	}
+	
+	/**
+	 * Gets all required information and adds it to resultSet
+	 * @param id is the id for the invoice
+	 * @return the resultSet for requested invoice
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public Invoice getInvoiceInformation(int id) throws DatabaseConnectionException {
+		ClientBroker cb = ClientBroker.getBroker();
+		BookingBroker bb = BookingBroker.getBroker();
+
+		String query = "SELECT * FROM invoice WHERE invoice_no='" + id + "' LIMIT 1";
+		ResultSet result = db.select(query);
+
+		Invoice invoice = null;
+		try {
+			while (result.next()) {
+				int client_id = result.getInt("client_id");
+				Date date = result.getDate("date");
+				boolean paid = result.getBoolean("paid");
+				double paymentDue = result.getDouble("paymentDue");
+				String desc = result.getString("description");
+				Date dueDate = result.getDate("dueDate");
+
+				ArrayList<Payment> payments = new ArrayList<Payment>();
+				query = "SELECT * FROM payment WHERE invoice_no='" + id + "'";
+				ResultSet pResult = db.select(query);
+				while (pResult.next()) {
+					payments.add(new Payment(pResult.getInt("payment_id"), pResult.getDate("paymentDate"), pResult.getDouble("paymentAmount")));
+				}
+
+				invoice = new Invoice(id, date, cb.getClientInformation(client_id), (ArrayList<Booking>) bb.getBookingsForInvoice(id), paid, paymentDue, desc, dueDate, payments);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		cb.close();
+		bb.close();		
+		return invoice;
+	}
+	
+	/**
+	 * @param invoice
+	 * @return
+	 * @throws DatabaseConnectionException
+	 */
+	public double getPaymentOwed(Invoice invoice) throws DatabaseConnectionException
+	{	
+		String query = "SELECT TIME_TO_SEC(TIMEDIFF(b.endTime, b.startTime))/3600, r.rate, c.discount, r.damageDeposit, r.bookingDeposit, b.client_id "
+			+ "FROM booking b, rate r, client c " 
+			+ "WHERE r.rate_id = b.rate "
+			+ "AND b.client_id = c.client_id "
+			+ "AND b.invoice_no = '" + invoice.getId() + "' ";
+
+		ResultSet result1 = db.select(query);
+		double total = 0;
+		
+		try
+		{
+			while(result1.next())
+			{
+<<<<<<< .mine
+				total = result1.getDouble(0) * result1.getDouble(1) * (1 - (result1.getInt(2)/100)) + result1.getDouble(3) + result1.getDouble(4);
+=======
+				total += (result1.getDouble(1) * result1.getDouble(2)) * (1 - (result1.getInt(3)/100));
+>>>>>>> .r618
+			}
+			result1.close();
+		}
+		catch (SQLException sqle)
+		{
+		sqle.printStackTrace();
+		}
+		
+		query = "SELECT SUM(paymentAmount) " 
+			+ "FROM payment " 
+			+ "WHERE invoice_no = '" + invoice.getId() + "' ";
+		
+		ResultSet result2 = db.select(query);
+		double payments = 0;
+		try
+		{
+			while(result2.next())
+			{
+				payments += result2.getDouble(1);
+			}
+			result2.close();
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+		}
+		
+		System.out.println("Total: " + total);
+		System.out.println("Payed: " + payments);
+		return total - payments;
+	}
+	
+	/**
+	 * @param invoice
+	 * @return
+	 * @throws DatabaseConnectionException
+	 */
+	public List<Payment> getPayments(Invoice invoice) throws DatabaseConnectionException 
+	{
+		Payment payment = new Payment();
+		ArrayList<Payment> payments = new ArrayList<Payment>();
+		
+		String query = "SELECT * " 
+			+ "FROM payment " 
+			+ "WHERE invoice_no = '" + invoice.getId() + "' ";
+		
+		ResultSet result = db.select(query);
+		
+		try
+		{
+			while(result.next())
+			{
+				payment.setId(result.getInt("payment_id"));
+				payment.setDate(result.getDate("paymentDate"));
+				payment.setAmount(result.getDouble("paymentAmount"));
+				payments.add(payment);
+			}
+			result.close();
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+		}
+		return payments;
+	}
+	
+	/**
+	 * @return
+	 * @throws DatabaseConnectionException
+	 */
+	public List<Invoice> getAllUnPaidInvoices() throws DatabaseConnectionException
+	{
+		ArrayList<Invoice> invoices = new ArrayList<Invoice>();
+		ClientManager cm = new ClientManager();
+		BookingManager bm = new BookingManager();
+		
+		String query = "SELECT * FROM invoice i, client c WHERE i.client_id = c.client_id";
+		ResultSet result = db.select(query);
+		try
+		{
+			if(result != null)
+				while(result.next())
+				{				
+					 Invoice invoice = new Invoice(result.getInt("invoice_id"), result.getDate("date"), cm.getClientInfo(result.getInt("client_id")), bm.getAllBookingsForClient(result.getInt("client_id")) , this.isPaid(this.getInvoiceInformation(result.getInt("invoice_no"))), this.getPaymentOwed(new Invoice(result.getInt("invoice_id"))), result.getString("description"), bm.getInvoiceDueDate(new Invoice(result.getInt("invoice_no"))), this.getPayments(new Invoice(result.getInt("invoice_id"))));
+					 if(!invoice.getPaid())
+						 invoices.add(invoice);
+				}
+			result.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		cm.close();
+		bm.close();
+		db.close();
+		
+		return invoices;
+	}
+
+	/**
+	 * @param invoice
+	 * @return
+	 * @throws DatabaseConnectionException
+	 */
+	public boolean isPaid(Invoice invoice) throws DatabaseConnectionException
+	{
+		return this.getPaymentOwed(invoice) <= 0;
+	}
+}

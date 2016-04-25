@@ -1,0 +1,136 @@
+/**
+ * 
+ */
+package persistence;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import exceptions.DatabaseConnectionException;
+import problemDomain.ToDoItem;
+
+/**
+ * @author John Stuby
+ * 
+ */
+public class ToDoItemBroker implements Broker {
+
+	private Database db = new Database();
+	private static ToDoItemBroker broker;
+
+	/**
+	 * @throws DatabaseConnectionException 
+	 * 
+	 */
+	private ToDoItemBroker() throws DatabaseConnectionException {
+		
+	}
+	
+	/**
+	 * Closes DB connection
+	 */
+	public void close() {
+		db.close();
+		broker = null;
+	}
+	
+	/**
+	 * getAll connects to DB and selects all information from toDoItem table
+	 */
+	public List<ToDoItem> getAll() throws DatabaseConnectionException {
+		String query = "SELECT * FROM toDoItem";
+		ResultSet result = db.select(query);
+		ArrayList<ToDoItem> toDoItems = new ArrayList<ToDoItem>();
+		try {
+			while (result.next()) {
+
+				ToDoItem toDoItem = new ToDoItem(result.getDate("date"), result.getString("name"), result.getString("description"));
+
+				toDoItems.add(toDoItem);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return toDoItems;
+	}
+	
+	/**
+	 * persist updates toDoItem table if id != -1 gets relevant information,
+	 * otherwise it inserts new information into tables
+	 */
+	public boolean persist(Object o) throws DatabaseConnectionException {
+		ToDoItem toDoItem = (ToDoItem) o;
+		String query;
+
+		if (toDoItem.getId() != -1) {
+			query = "UPDATE toDoItem SET date='" + toDoItem.getDate() + "'name='" + toDoItem.getName() + "',description='" + toDoItem.getDescription() + "'";
+			db.update(query);
+
+		} else {
+			query = "INSERT INTO toDoItem VALUES('" + 0 + "', '" + toDoItem.getDate() + "', '" + toDoItem.getName() + "', '" + toDoItem.getDescription() + "')";
+			db.update(query);
+		}
+		return true;
+	}
+
+	/**
+	 * @see persistence.Broker#remove(java.lang.Object)
+	 * Deletes toDoItem object when id's match
+	 */
+	public boolean remove(Object o) throws DatabaseConnectionException {
+		ToDoItem toDoItem = (ToDoItem) o;
+		String query;
+
+		query = "DELETE FROM toDoItem WHERE toDoItem_id='" + toDoItem.getId() + "'";
+		db.update(query);
+		return true;
+	}
+	/**
+	 * if broker == null than a new instance of toDoItemBroker is created.
+	 */
+	public static ToDoItemBroker getBroker() throws DatabaseConnectionException {
+		if (broker == null) {
+			broker = new ToDoItemBroker();
+		}
+		return broker;
+	}
+	
+	/**
+	 * if broker == null than a new instance of toDoItemBroker is created.
+	 */
+	public ToDoItem getToDoItemInformation(int id) throws DatabaseConnectionException {
+		String query = "SELECT * FROM toDoItem WHERE toDoItem_id='" + id + "' LIMIT 1";
+		ResultSet result = db.select(query);
+
+		ToDoItem tdi = null;
+
+		try {
+			while (result.next()) {
+
+				String name = result.getString("name");
+				Date date = result.getDate("date");
+				String description = result.getString("description");
+
+				tdi = new ToDoItem(id, date, name, description);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tdi;
+	}
+
+	/**
+	 * @param textSearch
+	 * @return
+	 */
+	public List<ToDoItem> search(String textSearch)
+	{
+		return null;
+	}
+	
+}

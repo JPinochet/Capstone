@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CommitComments>	<CommitComment>closed manager connections</CommitComment>
+	<CommitComment>payment owed recalculate
+</CommitComment>
+	<CommitComment>fixed numbering issue and also added booking and damage deposit</CommitComment>
+	<CommitComment>fixed numbering and also added booking and damage deposits to total</CommitComment>
+	<CommitComment>STUFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</CommitComment>
+	<CommitComment>added new fields</CommitComment>
+	<CommitComment>stuff was done</CommitComment>
+	<CommitComment>added validate method</CommitComment>
+	<CommitComment>Validate has better exception messages when thrown</CommitComment>
+	<CommitComment>Validation has better...well validation</CommitComment>
+</CommitComments>

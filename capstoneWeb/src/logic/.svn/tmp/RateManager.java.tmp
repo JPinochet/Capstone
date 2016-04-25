@@ -1,0 +1,221 @@
+/**
+ * 
+ */
+package logic;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import exceptions.CostInvalidException;
+import exceptions.DatabaseConnectionException;
+import exceptions.DescriptionInvalidException;
+import exceptions.NameInvalidException;
+import persistence.RateBroker;
+import problemDomain.Rate;
+
+/**
+ * @author 432873
+ * 
+ */
+public class RateManager extends HttpServlet {
+	private static final long serialVersionUID = -4432033456981799330L;
+	RateBroker rb;
+	
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		
+	}
+	
+	/**
+	 * Takes all rate variables, tests them to ensure that they are valid. if a error 
+	 * occurs an exception will be thrown.
+	 * @param rate
+	 * @return
+	 * @throws NameInvalidException
+	 * @throws DescriptionInvalidException
+	 * @throws CostInvalidException
+	 */
+	public boolean validate(Rate rate) throws NameInvalidException, DescriptionInvalidException, CostInvalidException
+	{
+		return this.validate(rate.getName(), rate.getDescription(), new Double(rate.getRate()).toString(), 
+				new Double(rate.getDamageDeposit()).toString(), new Double(rate.getBookingDeposit()).toString());
+	}
+	
+	/**
+	 * Tests each rate variable to ensure that they are valid, exceptions are thrown
+	 * when needed
+	 * @param name
+	 * @param description
+	 * @param rateCost
+	 * @param damageDeposit
+	 * @param bookingDeposit
+	 * @return
+	 */
+	public boolean validate(String name, String description, String rateCost, String damageDeposit, String bookingDeposit) throws CostInvalidException, NameInvalidException, DescriptionInvalidException
+	{
+		if(name == null)
+			throw new NameInvalidException("A Rate must have a name to identify it");
+		if(name.length() > 30)
+			throw new NameInvalidException("A Rate name cannot excede 30 characters.");
+		if(description != null)
+			if(description.length() > 400)
+				throw new DescriptionInvalidException("A description cannot excede 400 characters");
+		
+		if(rateCost == null)
+			throw new CostInvalidException("A rate cost cannot be left empty.");
+		try
+		{
+			Double cost = Double.parseDouble(rateCost);
+			if(cost < 0 )
+				throw new CostInvalidException("The Rate cost cannot be negative.");
+		}
+		catch(NumberFormatException nfe)
+		{
+			throw new CostInvalidException("The Rate cost must be entered in as a number format");
+		}
+		
+		if(bookingDeposit != null)
+		{
+			try
+			{
+				Double bd = Double.parseDouble(bookingDeposit);
+				
+				if(bd < 0)
+					throw new CostInvalidException("The Rate booking deposit cannot be negative.");
+			}
+			catch(NumberFormatException nfe)
+			{
+				throw new CostInvalidException("The Rate booking deposit must be entered in as a number format");
+			}
+		}
+		
+		if(damageDeposit != null)
+		{
+			try
+			{
+				Double dd = Double.parseDouble(damageDeposit);
+				
+				if(dd < 0)
+					throw new CostInvalidException("The Rate damage deposit cannot be negative.");
+			}
+			catch(NumberFormatException nfe)
+			{
+				throw new CostInvalidException("The Rate damage deposit must be entered in as a number format");
+			}
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Searches database for matching rates
+	 * @param query
+	 * @return
+	 * @throws DatabaseConnectionException 
+	 */
+	public List<Rate> search(String query) throws DatabaseConnectionException 
+	{
+		return rb.search(query);
+	}
+
+	/**
+	 * If id exists the rate table is updated, otherwise a new rate is 
+	 * inserted into the table
+	 * @param name
+	 * @param description
+	 * @param rateCost
+	 * @param damageDeposit
+	 * @param bookingDeposit
+	 * @return
+	 * @throws DescriptionInvalidException 
+	 * @throws NumberFormatException 
+	 * @throws DatabaseConnectionException 
+	 */
+	public boolean save(String name, String description, String rateCost, String damageDeposit, String bookingDeposit) throws CostInvalidException, NameInvalidException, NumberFormatException, DescriptionInvalidException, DatabaseConnectionException
+	{
+		Rate rate = null;
+		
+		if(this.validate(name, description, rateCost, damageDeposit, bookingDeposit))
+			rate = new Rate(name, description, Double.parseDouble(rateCost), Double.parseDouble(damageDeposit), Double.parseDouble(bookingDeposit));
+		
+		return rb.persist(rate);
+	}
+	
+	/**
+	 * If id exists, rate table is updated, if it does not exist it is added to rate 
+	 * table. appropriate exceptions are thrown as needed
+	 * @param rate
+	 * @return
+	 * @throws NameInvalidException
+	 * @throws DescriptionInvalidException
+	 * @throws CostInvalidException
+	 * @throws DatabaseConnectionException 
+	 */
+	public boolean save(Rate rate) throws NameInvalidException, DescriptionInvalidException, CostInvalidException, DatabaseConnectionException
+	{
+		if(this.validate(rate))
+			return rb.persist(rate);
+		
+		return false;
+	}
+
+	/**
+	 * Deletes information from rate table, where rate_id= rate.getId if the id
+	 * does not exist a exception will be thrown.
+	 * @param rate
+	 * @return
+	 * @throws DatabaseConnectionException 
+	 */
+	public boolean remove(Rate rate) throws DatabaseConnectionException 
+	{
+		return rb.remove(rate);
+	}
+	
+	/**
+	 * Closes the RateBroker
+	 */
+	public void close() {
+		rb.close();
+	}
+	
+	/**
+	 * Gets all information from rate table in database
+	 * @return
+	 * @throws DatabaseConnectionException 
+	 */
+	public List<Rate> getAll() throws DatabaseConnectionException
+	{
+		return rb.getAll();
+	}
+	
+	//SERVLET METHODS BELOW
+	
+	/**
+	 * Gets rateBroker instance, if an occurs exception will be thrown.
+	 * @throws DatabaseConnectionException
+	 */
+	public RateManager() throws DatabaseConnectionException 
+	{
+		rb = RateBroker.getBroker();
+	}
+	
+	/**
+	 * Gets request and response for HttpServletRequest and HttpServletResponse
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Posts request and response for HttpServletRequest and HttpServletResponse
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+}

@@ -1,0 +1,297 @@
+package problemDomain;
+
+import java.util.Date;
+
+public class Rate {
+	
+	/**
+	 * Initializes variables
+	 */
+	private int id = 0;
+	private String name;
+	private String description;
+	private double rate;
+	private double damageDeposit;
+	private double bookingDeposit;
+	private boolean isHourly;
+	private Date validStartTime;
+	private Date validEndTime;
+	private boolean sunday;
+	private boolean monday;
+	private boolean tuesday;
+	private boolean wednesday;
+	private boolean thursday;
+	private boolean friday;
+	private boolean saturday;
+
+	/**
+	 * Initializes rate
+	 */
+	public Rate(){}
+	
+	/**
+	 * @param name - type of rate
+	 * @param description - description of what the rate entails 
+	 * @param rate - rate amount
+	 * @param damageDeposit - damage deposit amount needed
+	 * @param bookingDeposit - booking deposit amount needed
+	 */
+	public Rate(int id, String name, String description, double rate, double damageDeposit, double bookingDeposit) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.rate = rate;
+		this.damageDeposit = damageDeposit;
+		this.bookingDeposit = bookingDeposit;
+	}
+	
+	/**
+	 * @param id
+	 * @param name
+	 * @param description
+	 * @param rate
+	 * @param damageDeposit
+	 * @param bookingDeposit
+	 * @param isHourly
+	 * @param validStartTime
+	 * @param validEndTime
+	 * @param sunday
+	 * @param monday
+	 * @param tuesday
+	 * @param wednesday
+	 * @param thursday
+	 * @param friday
+	 * @param saturday
+	 */
+	public Rate(int id, String name, String description, double rate, double damageDeposit, double bookingDeposit, boolean isHourly, Date validStartTime, Date validEndTime,
+			boolean sunday, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.rate = rate;
+		this.damageDeposit = damageDeposit;
+		this.bookingDeposit = bookingDeposit;
+		this.isHourly = isHourly;
+		this.validStartTime = validStartTime;
+		this.validEndTime = validEndTime;
+		this.sunday = sunday;
+		this.monday = monday;
+		this.tuesday = tuesday;
+		this.wednesday = wednesday;
+		this.thursday = thursday;
+		this.friday = friday;
+		this.saturday = saturday;
+	}
+
+	/**
+	 * @param id - rate id
+	 * @param name - type of rate
+	 * @param rate - rate amount
+	 */
+	public Rate(int id, String name, double rate) {
+		this.id = id;
+		this.name = name;
+		this.rate = rate;
+	}
+	
+	/**
+	 * @param id - rate id
+	 * @param name - type of rate
+	 * @param rate - rate amount
+	 */
+	public Rate(int id, String name, String description, double rate) {
+		this.id = id;
+		this.name = name;
+		this.description=description;
+		this.rate = rate;
+	}
+
+
+	/**
+	 * @param name - name of rate
+	 * @param description - description of rate
+	 * @param rate - rate of rate
+	 * @param damageDeposit - damageDeposit of rate
+	 * @param bookingDeposit - bookingDeposit of rate
+	 */
+	public Rate(String name, String description, double rate, double damageDeposit, double bookingDeposit) {
+		this.name = name;
+		this.description = description;
+		this.rate = rate;
+		this.damageDeposit = damageDeposit;
+		this.bookingDeposit = bookingDeposit;
+	}
+
+	/**
+	 * @return the name of the rate
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @return the description of the rate
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return the rate - rate amount
+	 */
+	public double getRate() {
+		return rate;
+	}
+
+	/**
+	 * @return damageDeposit - the amount of the damage deposit
+	 */
+	public double getDamageDeposit() {
+		return damageDeposit;
+	}
+
+	/**
+	 * @return bookingDeposit - the amount of the booking deposit 
+	 */
+	public double getBookingDeposit() {
+		return bookingDeposit;
+	}
+
+	/**
+	 * The name to set
+	 * @param name - the name of the rate
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * The description to set
+	 * @param description - description of the rate
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * The rate to set
+	 * @param rate - rate amount
+	 */
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+
+	/**
+	 * The damageDeposit to set
+	 * @param damageDeposit - amount of damage deposit
+	 */
+	public void setDamageDeposit(double damageDeposit) {
+		this.damageDeposit = damageDeposit;
+	}
+
+	/**
+	 * The bookingDeposit to set
+	 * @param bookingDeposit - amount of booking deposit
+	 */
+	public void setBookingDeposit(double bookingDeposit) {
+		this.bookingDeposit = bookingDeposit;
+	}
+
+	/**
+	 * @return the id - of the invoice
+	 */
+	public int getId() {
+		return id;
+	}
+	
+	/**
+	 * The id to set
+	 * @param id - of the invoice
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public boolean isHourly() {
+		return isHourly;
+	}
+
+	public void setHourly(boolean isHourly) {
+		this.isHourly = isHourly;
+	}
+
+	public Date getValidStartTime() {
+		return validStartTime;
+	}
+
+	public void setValidStartTime(Date validStartTime) {
+		this.validStartTime = validStartTime;
+	}
+
+	public Date getValidEndTime() {
+		return validEndTime;
+	}
+
+	public void setValidEndTime(Date validEndTime) {
+		this.validEndTime = validEndTime;
+	}
+
+	public boolean isSunday() {
+		return sunday;
+	}
+
+	public void setSunday(boolean sunday) {
+		this.sunday = sunday;
+	}
+
+	public boolean isMonday() {
+		return monday;
+	}
+
+	public void setMonday(boolean monday) {
+		this.monday = monday;
+	}
+
+	public boolean isTuesday() {
+		return tuesday;
+	}
+
+	public void setTuesday(boolean tuesday) {
+		this.tuesday = tuesday;
+	}
+
+	public boolean isWednesday() {
+		return wednesday;
+	}
+
+	public void setWednesday(boolean wednesday) {
+		this.wednesday = wednesday;
+	}
+
+	public boolean isThursday() {
+		return thursday;
+	}
+
+	public void setThursday(boolean thursday) {
+		this.thursday = thursday;
+	}
+
+	public boolean isFriday() {
+		return friday;
+	}
+
+	public void setFriday(boolean friday) {
+		this.friday = friday;
+	}
+
+	public boolean isSaturday() {
+		return saturday;
+	}
+
+	public void setSaturday(boolean saturday) {
+		this.saturday = saturday;
+	}
+
+	
+}

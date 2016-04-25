@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+java.specification.name,sysinfo,,,"Java Platform API Specification",1266330866312
+java.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1266330866312
+java.specification.version,sysinfo,,,"1.6",1266330866312
+java.vendor,sysinfo,,,"Sun Microsystems Inc.",1266330866312
+java.version,sysinfo,,,"1.6.0_16",1266330866312
+java.vm.info,sysinfo,,,"mixed mode",1266330866312
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1266330866312
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1266330866312
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1266330866312
+java.vm.specification.version,sysinfo,,,"1.0",1266330866312
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1266330866312
+java.vm.version,sysinfo,,,"14.2-b01",1266330866312
+started,bundle,org.eclipse.php.debug.ui,2.1.1.v20090714-1338,"org.eclipse.php.debug.ui",1266330866656
+started,bundle,org.eclipse.wst.sse.ui,1.1.101.v200908261807,"org.eclipse.wst.sse.ui",1266330866671
+started,bundle,org.eclipse.php.ui,2.1.1.v20090914-1400,"org.eclipse.php.ui",1266330866671
+started,bundle,org.eclipse.equinox.p2.ui,1.0.101.R35x_v20090819,"org.eclipse.equinox.p2.ui",1266330937781
+started,bundle,org.eclipse.equinox.p2.ui.sdk,1.0.100.v20090520-1905,"org.eclipse.equinox.p2.ui.sdk",1266330937781
+started,bundle,org.eclipse.equinox.p2.metadata,1.0.100.v20090525,"org.eclipse.equinox.p2.metadata",1266330938109
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266330940218
+started,bundle,org.eclipse.equinox.p2.extensionlocation,1.0.100.v20090520-1905,"org.eclipse.equinox.p2.extensionlocation",1266330944953
+started,bundle,org.eclipse.equinox.p2.updatesite,1.0.100.v20090525,"org.eclipse.equinox.p2.updatesite",1266330948796
+started,bundle,org.eclipse.equinox.p2.publisher,1.0.0.v20090527-1812,"org.eclipse.equinox.p2.publisher",1266330948828
+error,log,,,"Unable to load the repository http://eclipsexslt.sourceforge.net/",1266330949062
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.paste",1266331120000
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.cut",1266331138500

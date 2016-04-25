@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="239" key="DIALOG_WIDTH"/>
+		<item value="4" key="DIALOG_Y_ORIGIN"/>
+		<item value="945" key="DIALOG_X_ORIGIN"/>
+		<item value="362" key="DIALOG_HEIGHT"/>
+		<item value="1|Microsoft Sans Serif|8.25|0|WINDOWS|1|-11|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft Sans Serif" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="wrap"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
+		<item value="false" key="incremental"/>
+		<item value="false" key="wholeword"/>
+		<item value="" key="selection"/>
+		<list key="findhistory">
+			<item value="ScheduleWindow.jsp"/>
+			<item value="AccountingWindow.jsp"/>
+			<item value="for"/>
+			<item value="thrusday"/>
+			<item value="LoginManager"/>
+			<item value="client"/>
+			<item value="&quot;"/>
+			<item value=" class=&quot;timeBorder&quot;"/>
+		</list>
+		<list key="replacehistory">
+			<item value="BookingWindow.jsp"/>
+			<item value="InvoiceWindow.jsp"/>
+			<item value="thursday"/>
+			<item value="PublicLoginManager"/>
+			<item value=""/>
+			<item value="&lt;td class=&quot;timeBorder&quot;&gt;"/>
+			<item value="&amp;nbsp;"/>
+		</list>
+	</section>
+</section>

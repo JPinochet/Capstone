@@ -1,0 +1,12 @@
+.cssForm .leftDiv,.cssForm .rightDiv {
+	margin-bottom:5px;
+	float:left
+}
+.cssForm .leftDiv{
+	clear:left;
+	text-align: right; 
+	padding-right:2%
+}
+.cssForm .rightDiv{
+	clear:right
+}

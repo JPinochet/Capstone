@@ -1,0 +1,240 @@
+package logic;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+import exceptions.CostInvalidException;
+import exceptions.DatabaseConnectionException;
+import exceptions.NameInvalidException;
+
+import persistence.AdditionalChargeBroker;
+import problemDomain.AdditionalCharge;
+
+/**
+ * Servlet implementation class AdditionalChargeManager
+ */
+public class AdditionalChargeManager extends HttpServlet {
+	private static final long serialVersionUID = -8375755279208459370L;
+	AdditionalChargeBroker acb;
+	
+	/**
+	 * Processes requests based on parameters
+	 * @param request is the request that is called
+	 * @param response is the response that is returned
+	 */
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		if(request.getParameter("q") != null) {
+			try {
+				PrintWriter out = response.getWriter();
+				List<AdditionalCharge> acs = search(request.getParameter("q"));
+			 
+			    Iterator<AdditionalCharge> iterator = acs.iterator();
+			    while(iterator.hasNext()) {
+			    	AdditionalCharge ac = iterator.next();
+			        out.println(ac.getName());
+			    }
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (DatabaseConnectionException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		HttpSession session = request.getSession();
+		String doRequest = request.getParameter("do");
+		if(doRequest != null) {
+			if(doRequest.equals("search")){
+				if(request.getParameter("search") != null) {
+					try {
+						session.setAttribute("searchResults", search(request.getParameter("searchText")));
+					} catch (DatabaseConnectionException e) {
+						//TODO: ERROR MESSAGE
+						e.printStackTrace();
+					}
+				}else if(request.getParameter("reset") != null) {
+					session.setAttribute("searchResults", null);
+				}
+			} else if(doRequest.equals("manage")) {
+				int id = Integer.parseInt(request.getParameter("additional_charge_id"));
+				String name = request.getParameter("name");
+				String cost = request.getParameter("cost");
+				
+				
+				if(request.getParameter("delete") != null && id != 0) {
+					try {
+						AdditionalCharge ac = new AdditionalCharge();
+						ac.setId(id);					
+						if(!this.remove(ac)) {
+							//TODO: Error message
+						}
+					} catch (DatabaseConnectionException e) {
+						e.printStackTrace();
+					}
+				} else if(request.getParameter("save") != null) { //We are saving an existing client or creating a new one
+					try {					
+						if(!this.save(id, name, cost)) {
+							System.out.println("not saved?");
+						}
+					} catch (DatabaseConnectionException e) {
+						e.printStackTrace();
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (CostInvalidException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NameInvalidException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+				}
+			}try {
+				response.sendRedirect("ManagementWindow.jsp");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * @param acName is Additional charge Name for additional charge
+	 * @param cost for additional charge 
+	 * @return
+	 * @throws CostInvalidException is thrown if it is null or <0 dollars 
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 */
+	public boolean validate(String acName, String cost) throws CostInvalidException, NameInvalidException/*throws AdditionalChargeNameTooLongException, etc...*/ 
+	{
+		if(acName == null)
+			throw new NameInvalidException("An Additional Charge must have a name to identify it.");
+		if(acName.length() > 30)
+			throw new NameInvalidException("Additional Charge name cannot excede 30 characters.");
+		
+		if(cost == null)
+			throw new CostInvalidException("An additional charge cost must be identified.");
+		try
+		{
+			Double acCost = Double.parseDouble(cost);
+			
+			if(acCost < 0 )
+				throw new CostInvalidException("Cost cannot be negative.");
+		}
+		catch(NumberFormatException nfe)
+		{
+			throw new CostInvalidException("The additional charge cost must be a number.");
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @param ac Additional charge to validate
+	 * @return
+	 * @throws CostInvalidException is thrown if it is null or <0 dollars
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 */
+	public boolean validate(AdditionalCharge ac) throws CostInvalidException, NameInvalidException
+	{
+		return validate(ac.getName(), new Double(ac.getCost()).toString());
+	}
+
+	/**
+	 * @param search passes message along to database to search than returns a list
+	 * @return
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public List<AdditionalCharge> search(String query) throws DatabaseConnectionException {
+		return acb.search(query);
+	}
+
+	/**
+	 * Validates all fields for ac to ensure that all fields are not null.
+	 * If a field is null a appropriate exception will be thrown
+	 * If name exists, information in additionalCharge table is updated, otherwise 
+	 * information is inserted into table
+	 * @param ac additionalCharge is a variable that holds information to save into 
+	 * database
+	 * @return
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 * @throws CostInvalidException is thrown if it is null or <0 dollars
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+<<<<<<< .mine
+	public boolean save(int id, String acName, String acCost) throws NumberFormatException, CostInvalidException, NameInvalidException, DatabaseConnectionException {
+=======
+	public boolean save(String acName, String acCost) throws CostInvalidException, NameInvalidException, DatabaseConnectionException {
+>>>>>>> .r357
+		AdditionalCharge ac = null;
+		
+		if(this.validate(acName, acCost))
+			ac = new AdditionalCharge(id, acName, Double.parseDouble(acCost));
+		
+		return acb.persist(ac);
+	}
+
+	/**
+	 * Removes the supplied object from the database
+	 * @param ac this is a variable that holds additionalCharge information to remove from the
+	 * database
+	 * @return
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public boolean remove(AdditionalCharge ac) throws DatabaseConnectionException {
+		return acb.remove(ac);
+	}
+	
+	/**
+	 * Closes Database connection
+	 */
+	public void close() {
+		acb.close();
+	}
+	
+	/**
+	 * Creates new additionalCharge as long as Result !=null
+	 * @return
+	 * @throws DatabaseConnectionException is thrown if DB connection fails 
+	 */
+	public List<AdditionalCharge> getAdditionalChargeList() throws DatabaseConnectionException
+	{
+		return acb.getAll();
+	}
+       
+    /**
+     * Gets the broker instance
+     * @throws DatabaseConnectionException is thrown if DB connection fails
+     * @see HttpServlet#HttpServlet()
+     */
+    public AdditionalChargeManager() throws DatabaseConnectionException {
+		acb = AdditionalChargeBroker.getBroker();
+    }
+
+	/**
+	 * Gets request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if error 
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Posts request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if error 
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+}

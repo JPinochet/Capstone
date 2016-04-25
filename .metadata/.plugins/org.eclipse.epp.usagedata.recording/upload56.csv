@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266511728718
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266511733031
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511739078
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511756750
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.commit",1266511756843
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511757125
+error,log,,,"org.tigris.subversion.javahl.ClientException: Merge conflict during commit\nsvn: Commit failed (details follow):\nsvn: File or directory 'BookingBroker.java' is out of date; try updating\nsvn: resource out of date; try updating\n",1266511757234
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511759015
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.update",1266511764515
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511764828
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511765000
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.update",1266511769296
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511769609
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511769812
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.update",1266511774406
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511774718
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511774875
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.update",1266511778062
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511778359
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511778453
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.update",1266511781812
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511782265
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511782296
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.update",1266511785000
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266511785375

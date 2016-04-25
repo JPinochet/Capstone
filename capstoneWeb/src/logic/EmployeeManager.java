@@ -1,0 +1,309 @@
+package logic;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import exceptions.DatabaseConnectionException;
+import exceptions.GivenNameInvalidException;
+import exceptions.PasswordInvalidException;
+import exceptions.SurnameInvalidException;
+import exceptions.UsernameInvalidException;
+
+import persistence.EmployeeBroker;
+import problemDomain.Employee;
+
+/**
+ * Servlet implementation class EmployeeManager
+ */
+public class EmployeeManager extends HttpServlet {
+	private static final long serialVersionUID = -788164930568784630L;
+	
+	/**
+	 * Initializes EmployeeBroker instance and sets it to null
+	 */
+	EmployeeBroker eb = null;
+
+	/**
+	 * Calls HttpServletRequest and HttpServletResponse
+	 * Iterates through Employee
+	 * If an error occurs the appropriate exception will be thrown
+	 * @param request is the request that is called
+	 * @param response is the response that is returned
+	 */
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		if(request.getParameter("q") != null) {
+			try {
+				PrintWriter out = response.getWriter();
+				try {
+					List<Employee> employees = search(request.getParameter("q"));
+ 
+					Iterator<Employee> iterator = employees.iterator();
+					while(iterator.hasNext()) {
+						Employee employee = iterator.next();
+					    out.println(employee.getGivenName() + " " + employee.getSurname());
+					}
+				} catch (DatabaseConnectionException e) {
+					out.println("Could not connect to database");
+				}
+			} catch (IOException e1) {} 
+		}
+		
+		HttpSession session = request.getSession();
+		String doRequest = request.getParameter("do");
+		if(doRequest != null) {
+			String error = "";
+			if(doRequest.equals("search")){
+				if(request.getParameter("search") != null) {
+					try {
+						session.setAttribute("searchResults", search(request.getParameter("searchText")));
+					} catch (DatabaseConnectionException e) {
+						error = "?error=main&message="+e.getMessage();
+					}
+				}else if(request.getParameter("reset") != null) {
+					session.setAttribute("searchResults", null);
+				}
+			} else if(doRequest.equals("manage")) 
+			{
+				int id = Integer.parseInt(request.getParameter("id"));
+				String username = request.getParameter("username");
+				String password = request.getParameter("password");
+				String givenName = request.getParameter("givenName");
+				String surname = request.getParameter("surname");
+				String employeeLevel = request.getParameter("employeeLevel");
+				
+						
+				if(request.getParameter("delete") != null && id != 0) {
+					try {
+						Employee employee = new Employee();
+						employee.setId(id);		
+						if(!remove(employee)) {
+							error = "?error=main&message=Could not remove employee";
+						}
+					} catch (DatabaseConnectionException e) {
+						error = "?error=main&message="+e.getMessage();
+					}
+				} else if(request.getParameter("save") != null) { //We are saving an existing client or creating a new one
+					ArrayList<String> errorText = new ArrayList<String>();
+					errorText.add(id+"");
+					errorText.add(username);
+					errorText.add(password);
+					errorText.add(givenName);
+					errorText.add(surname);
+					errorText.add(employeeLevel+"");
+					try {					
+						if(!this.save(id, username, password, givenName, surname, employeeLevel)) {
+						}
+						session.setAttribute("searchResults", null);
+					} catch (DatabaseConnectionException e) {
+						error = "?error=main&message="+e.getMessage();
+					}  catch (GivenNameInvalidException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "givenName");
+						session.setAttribute("errorText", errorText);
+					} catch (SurnameInvalidException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "surname");
+						session.setAttribute("errorText", errorText);
+					} catch (PasswordInvalidException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "password");
+						session.setAttribute("errorText", errorText);
+					} catch (UsernameInvalidException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "username");
+						session.setAttribute("errorText", errorText);
+					}
+				}
+			}try {
+				response.sendRedirect("EmployeeWindow.jsp"+error);
+			} catch (IOException e) {}
+		}
+	}
+	
+	/**
+	 * Validates all fields of an employee object to ensure that the fields can be committed
+	 * to the database without error and users correctly inputed information for each field.
+	 * If a field is not valid a appropriate exception will be thrown
+	 * @param emp the employee object to validate.
+	 * @return true/false if the object is valid.
+	 * @throws GivenNameInvalidException is thrown if it is null or has >25 characters
+	 * @throws PasswordInvalidException is thrown if it is <8 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >25 characters
+	 * @throws UsernameInvalidException is thrown if it is null or has >25 characters
+	 */
+	public boolean validate(Employee emp) throws GivenNameInvalidException, PasswordInvalidException, SurnameInvalidException, UsernameInvalidException {
+		return this.validate(emp.getUsername(), emp.getPassword(), emp.getGivenName(), emp.getSurname());
+	}
+	
+	/**
+	 * Validates all fields of an employee object to ensure that the fields can be committed
+	 * to the database without error and users correctly inputed information for each field.
+	 * If a field is not valid a appropriate exception will be thrown
+	 * 
+	 * @param username is the username for the employee
+	 * @param password is the password for the employee
+	 * @param givenName is the givenName for the employee
+	 * @param surname is the surname for the employee
+	 * @return true/false if the object is valid.
+	 * @throws PasswordInvalidException is thrown if it is <8 characters
+	 * @throws GivenNameInvalidException is thrown if it is null or has >25 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >25 characters
+	 * @throws UsernameInvalidException is thrown if it is null or has >25 characters
+	 */
+	public boolean validate(String username, String password, String givenName, String surname) throws PasswordInvalidException, GivenNameInvalidException, SurnameInvalidException, UsernameInvalidException
+	{
+		if(givenName == null || givenName.equals(""))
+			throw new GivenNameInvalidException("An employee's given name cannot be left blank.");
+		if(givenName.length() > 25)
+			throw new GivenNameInvalidException("An employee's given name cannot be longer than 25 characters.");
+
+		if(surname == null || surname.equals(""))
+			throw new SurnameInvalidException("An employee's surname cannot be left blank.");
+		if(surname.length() > 25)
+			throw new SurnameInvalidException("An employee's surname cannot be longer than 25 characters.");
+
+		if(username == null || username.equals(""))
+			throw new UsernameInvalidException("An employee's username cannot be left blank.");
+		if(username.length() > 25)
+			throw new UsernameInvalidException("An employee's username cannot be longer than 25 characters.");
+		
+		if(password == null || password.equals("")){
+			throw new PasswordInvalidException("An employee requires a password to log into the system. Both remotely and locally.");
+		}
+		if(password != null && !password.equals("")){
+			if(password.length() < 8)
+				throw new PasswordInvalidException("Password cannot be shorter than 8 characters.");
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Creates a list of employee objects that matched the string passed in.
+	 * Searches through all employee in the database for any matches found.
+	 * @param search string containing the information to look for.
+	 * @return a List of employee objects that contain the search string.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public List<Employee> search(String search) throws DatabaseConnectionException {
+		return eb.search(search);
+	}
+
+	/**
+	 * Saves/Updates an employee object if valid.
+	 * @param emp employee object to commit.
+	 * @return true/false if the object was saved.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public boolean save(Employee emp) throws DatabaseConnectionException {
+		return eb.persist(emp);
+	}
+	
+	/**
+	 * Validates all fields for username, password, givenName, surname to ensure 
+	 * that all fields are not null.
+	 * If a field is null a appropriate exception will be thrown
+	 * If id exists information in Employee table will be updated
+	 * If id != exist information is inserted into Employee table
+	 * 
+	 * @param username is the username for the employee
+	 * @param password is the password for the employee
+	 * @param givenName is the givenName for the employee
+	 * @param surname is the surname for the employee
+	 * @param employeeLevel is the level of access the employee has to the system
+	 * @return updated list for Employee
+	 * @throws UsernameInvalidException is thrown if it is null or has >25 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >25 characters
+	 * @throws GivenNameInvalidException is thrown if it is null or has >25 characters
+	 * @throws PasswordInvalidException is thrown if it is <8 characters
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public boolean save(int id, String username, String password, String givenName, String surname, String employeeLevel) throws PasswordInvalidException, GivenNameInvalidException, SurnameInvalidException, UsernameInvalidException, DatabaseConnectionException
+	{
+		Employee emp = null;
+		
+		if(this.validate(username, password, givenName, surname))
+			emp = new Employee(id, username, password, givenName, surname, Integer.parseInt(employeeLevel));
+		
+		return eb.persist(emp);
+	}
+
+	/**
+	 * Removes an employee object.
+	 * 
+	 * @param emp the employee object to commit.
+	 * @return true/false if the object was removed.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public boolean remove(Employee emp) throws DatabaseConnectionException {
+		return eb.remove(emp);
+	}
+	
+	/**
+	 * Closes Database connection
+	 */
+	public void close() {
+		eb.close();
+	}
+	
+	/**
+	 * Gets all information from table for that table
+	 * @return List with all requested information from database
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public List<Employee> getEmployeeList() throws DatabaseConnectionException
+	{
+		return eb.getEmployeeList();
+	}
+	
+	/**
+	 * @param employee_id
+	 * @return Employee
+	 * @throws DatabaseConnectionException 
+	 */
+	public Employee getEmployeeInfo(int employee_id) throws DatabaseConnectionException 
+	{
+		return (Employee) eb.getEmployeeInformation(employee_id);
+	}
+
+	/**
+	 * Gets request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if error 
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Posts request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if error 
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+	
+	
+	/**
+	 * Gets the broker instance
+     * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @see HttpServlet#HttpServlet()
+     */
+    public EmployeeManager() throws DatabaseConnectionException {
+		eb = EmployeeBroker.getBroker();
+    }
+}

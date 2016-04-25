@@ -1,0 +1,203 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use
+END
+EmailInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/EmailInvalidException.html
+END
+DiscountInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/DiscountInvalidException.html
+END
+ScheduleInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/ScheduleInvalidException.html
+END
+TearDownTimeInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/TearDownTimeInvalidException.html
+END
+PasswordInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/PasswordInvalidException.html
+END
+MaxCapacityInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/MaxCapacityInvalidException.html
+END
+DamageDepositInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/DamageDepositInvalidException.html
+END
+CostInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/CostInvalidException.html
+END
+SurnameInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/SurnameInvalidException.html
+END
+MinBookingTimeInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/MinBookingTimeInvalidException.html
+END
+WorkPhoneInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/WorkPhoneInvalidException.html
+END
+DateInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/DateInvalidException.html
+END
+SetupTimeInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/SetupTimeInvalidException.html
+END
+BooleanInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/BooleanInvalidException.html
+END
+NameInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/NameInvalidException.html
+END
+BookingDepositInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/BookingDepositInvalidException.html
+END
+DescriptionInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/DescriptionInvalidException.html
+END
+NumberInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/NumberInvalidException.html
+END
+PostalCodeInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/PostalCodeInvalidException.html
+END
+MinBookingIntervalInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/MinBookingIntervalInvalidException.html
+END
+CountryInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/CountryInvalidException.html
+END
+CityInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/CityInvalidException.html
+END
+GivenNameInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/GivenNameInvalidException.html
+END
+CellPhoneInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/CellPhoneInvalidException.html
+END
+DatabaseConnectionException.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/DatabaseConnectionException.html
+END
+UsernameInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/UsernameInvalidException.html
+END
+OpenTimeInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/OpenTimeInvalidException.html
+END
+ClientDoesNotExistException.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/ClientDoesNotExistException.html
+END
+ClientNameNotUniqueException.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/ClientNameNotUniqueException.html
+END
+HomePhoneInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/HomePhoneInvalidException.html
+END
+CloseTimeInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/CloseTimeInvalidException.html
+END
+ProvinceInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/ProvinceInvalidException.html
+END
+AddressInvalidException.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/capstone/!svn/ver/751/code_base/branches/capstoneWeb/doc/exceptions/class-use/AddressInvalidException.html
+END

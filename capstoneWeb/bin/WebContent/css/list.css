@@ -1,0 +1,28 @@
+table.list {
+	border: 1px solid gray;
+	margin: 5px auto;
+}
+table.list tr {
+	background:#FFCB73;
+	color: #FFA100;
+}
+table.list tr:hover {
+	background:#FFA100;
+	color: #FFCB73;
+	cursor: pointer;
+}
+table.list td {
+	padding: 1px 5px;
+}
+table.list th {
+	position: relative;
+	margin: 0px 1px;
+	font-size: 12px;
+	text-decoration: underline;
+	text-transform: uppercase;
+	padding: 0px 5px;
+}
+.listInfo {
+	width: 568px;
+	margin: 0px auto;
+}

@@ -1,0 +1,203 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/capstone/!svn/ver/566/code_base/branches/capstoneWeb/src/exceptions
+END
+CellPhoneInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/capstone/!svn/ver/411/code_base/branches/capstoneWeb/src/exceptions/CellPhoneInvalidException.java
+END
+GivenNameInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/GivenNameInvalidException.java
+END
+DatabaseConnectionException.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/DatabaseConnectionException.java
+END
+UsernameInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/UsernameInvalidException.java
+END
+OpenTimeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/capstone/!svn/ver/445/code_base/branches/capstoneWeb/src/exceptions/OpenTimeInvalidException.java
+END
+ClientDoesNotExistException.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/capstone/!svn/ver/566/code_base/branches/capstoneWeb/src/exceptions/ClientDoesNotExistException.java
+END
+ClientNameNotUniqueException.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/capstone/!svn/ver/566/code_base/branches/capstoneWeb/src/exceptions/ClientNameNotUniqueException.java
+END
+HomePhoneInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/HomePhoneInvalidException.java
+END
+CloseTimeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/capstone/!svn/ver/445/code_base/branches/capstoneWeb/src/exceptions/CloseTimeInvalidException.java
+END
+ProvinceInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/ProvinceInvalidException.java
+END
+AddressInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/capstone/!svn/ver/411/code_base/branches/capstoneWeb/src/exceptions/AddressInvalidException.java
+END
+EmailInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/EmailInvalidException.java
+END
+DiscountInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/DiscountInvalidException.java
+END
+ScheduleInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/ScheduleInvalidException.java
+END
+TearDownTimeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/TearDownTimeInvalidException.java
+END
+PasswordInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/PasswordInvalidException.java
+END
+MaxCapacityInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/capstone/!svn/ver/445/code_base/branches/capstoneWeb/src/exceptions/MaxCapacityInvalidException.java
+END
+DamageDepositInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/capstone/!svn/ver/479/code_base/branches/capstoneWeb/src/exceptions/DamageDepositInvalidException.java
+END
+CostInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/capstone/!svn/ver/411/code_base/branches/capstoneWeb/src/exceptions/CostInvalidException.java
+END
+SurnameInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/SurnameInvalidException.java
+END
+MinBookingTimeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/capstone/!svn/ver/445/code_base/branches/capstoneWeb/src/exceptions/MinBookingTimeInvalidException.java
+END
+WorkPhoneInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/WorkPhoneInvalidException.java
+END
+DateInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/DateInvalidException.java
+END
+SetupTimeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/SetupTimeInvalidException.java
+END
+BooleanInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/capstone/!svn/ver/411/code_base/branches/capstoneWeb/src/exceptions/BooleanInvalidException.java
+END
+BookingDepositInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/capstone/!svn/ver/479/code_base/branches/capstoneWeb/src/exceptions/BookingDepositInvalidException.java
+END
+NameInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/NameInvalidException.java
+END
+DescriptionInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/DescriptionInvalidException.java
+END
+NumberInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/NumberInvalidException.java
+END
+PostalCodeInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/capstone/!svn/ver/412/code_base/branches/capstoneWeb/src/exceptions/PostalCodeInvalidException.java
+END
+MinBookingIntervalInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/capstone/!svn/ver/445/code_base/branches/capstoneWeb/src/exceptions/MinBookingIntervalInvalidException.java
+END
+CountryInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/capstone/!svn/ver/411/code_base/branches/capstoneWeb/src/exceptions/CountryInvalidException.java
+END
+CityInvalidException.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/capstone/!svn/ver/411/code_base/branches/capstoneWeb/src/exceptions/CityInvalidException.java
+END

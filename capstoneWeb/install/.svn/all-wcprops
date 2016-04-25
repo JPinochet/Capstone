@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/capstone/!svn/ver/755/code_base/branches/capstoneWeb/install
+END
+password.ini
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/capstone/!svn/ver/755/code_base/branches/capstoneWeb/install/password.ini
+END
+indus.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/capstone/!svn/ver/755/code_base/branches/capstoneWeb/install/indus.xml
+END
+testData.sql
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/capstone/!svn/ver/755/code_base/branches/capstoneWeb/install/testData.sql
+END
+dbStruct.sql
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/capstone/!svn/ver/755/code_base/branches/capstoneWeb/install/dbStruct.sql
+END
+setup.nsi
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/capstone/!svn/ver/755/code_base/branches/capstoneWeb/install/setup.nsi
+END
+indus.war
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/capstone/!svn/ver/755/code_base/branches/capstoneWeb/install/indus.war
+END
+Recreational_Facility_Management_System.url
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/capstone/!svn/ver/755/code_base/branches/capstoneWeb/install/Recreational_Facility_Management_System.url
+END

@@ -1,0 +1,366 @@
+package logic;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import persistence.OrganizationBroker;
+import problemDomain.Client;
+import problemDomain.Organization;
+import exceptions.AddressInvalidException;
+import exceptions.CityInvalidException;
+import exceptions.ClientDoesNotExistException;
+import exceptions.ClientNameNotUniqueException;
+import exceptions.CountryInvalidException;
+import exceptions.DatabaseConnectionException;
+import exceptions.DescriptionInvalidException;
+import exceptions.DiscountInvalidException;
+import exceptions.EmailInvalidException;
+import exceptions.GivenNameInvalidException;
+import exceptions.NameInvalidException;
+import exceptions.PostalCodeInvalidException;
+import exceptions.ProvinceInvalidException;
+import exceptions.SurnameInvalidException;
+
+/**
+ * Servlet implementation class OrganizationManager
+ */
+public class OrganizationManager extends HttpServlet {
+	private static final long serialVersionUID = -6917533320994086482L;
+	
+	/**
+	 * Initializes OrganizationBroker instance 
+	 */
+	OrganizationBroker ob;
+	
+	/**
+	 * Calls HttpServletRequest and HttpServletResponse
+	 * Iterates through Organization
+	 * If an error occurs the appropriate exception will be thrown
+	 * @param request is the request that is called
+	 * @param response is the response that is returned
+	 * @throws DatabaseConnectionException 
+	 */
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		if(request.getParameter("q") != null) {
+			try {
+				PrintWriter out = response.getWriter();
+				try {
+					List<Organization> orgs = search(request.getParameter("q"));
+ 
+					Iterator<Organization> iterator = orgs.iterator();
+					while(iterator.hasNext()) {
+						Organization org = iterator.next();
+					    out.println(org.getName());
+					}
+				} catch (DatabaseConnectionException e) {
+					out.println("Could not connect to database");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} catch (IOException e1) {}
+		}
+		
+		HttpSession session = request.getSession();
+		String doRequest = request.getParameter("do");
+		if(doRequest != null) {
+			String error = "";
+			if(doRequest.equals("search")){
+				if(request.getParameter("search") != null) {
+					try {
+						session.setAttribute("searchResults", search(request.getParameter("searchText")));
+					} catch (DatabaseConnectionException e) {
+						error = "?error=main&message="+e.getMessage();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}else if(request.getParameter("reset") != null) {
+					session.setAttribute("searchResults", null);
+				}
+			} else if(doRequest.equals("manage")) {
+				int id = Integer.parseInt(request.getParameter("id"));
+				String name = request.getParameter("name");
+				String discount = request.getParameter("discount");
+				String description = request.getParameter("desc");
+				String contact = request.getParameter("contact");
+				
+				if(request.getParameter("delete") != null && id != 0) {
+					try {
+						Organization org = new Organization();
+						org.setId(id);					
+						if(!this.remove(org)) {
+							error = "?error=main&message=Could not remove organization.";
+						}
+					} catch (DatabaseConnectionException e) {
+						error = "?error=main&message="+e.getMessage();
+					}
+				} else if(request.getParameter("save") != null) { //We are saving an existing org or creating a new one
+					ArrayList<String> errorText = new ArrayList<String>();
+					errorText.add(id+"");
+					errorText.add(name);
+					errorText.add(discount);
+					errorText.add(contact);
+					errorText.add(description);
+					try {
+						this.save(id, name, discount, contact, description);
+					} catch (DatabaseConnectionException e) {
+						error = "?error=main&message="+e.getMessage();
+					} catch (DiscountInvalidException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "discount");
+						session.setAttribute("errorText", errorText);
+					} catch (NameInvalidException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "name");
+						session.setAttribute("errorText", errorText);
+					} catch (DescriptionInvalidException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "desc");
+						session.setAttribute("errorText", errorText);
+					} catch (ClientNameNotUniqueException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "contact");
+						session.setAttribute("errorText", errorText);
+					} catch (ClientDoesNotExistException e) {
+						error = "?error=info";
+						session.setAttribute("errorMessage", e.getMessage());
+						session.setAttribute("errorField", "contact");
+						session.setAttribute("errorText", errorText);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}try {
+				response.sendRedirect("OrganizationWindow.jsp"+error);
+			} catch (IOException e) {}
+		}
+	}
+	
+	/**
+	 * Validates all fields of an organization object to ensure that the fields can be committed
+	 * to the database without error and users correctly inputed information for each field.
+	 * If a field is not valid a appropriate exception will be thrown
+	 * @param name is the name for the organization
+	 * @param discount is the discount for the organization
+	 * @param contact is the contact for the organization
+	 * @param description is the description for the organization
+	 * @return true/false if the object is valid.
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 * @throws DiscountInvalidException is thrown if it is null, has <0 number or is not in
+	 * the proper number format
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws GivenNameInvalidException is thrown if it is null or has >65 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >63 characters
+	 * @throws AddressInvalidException is thrown if it is null or has >75 characters
+	 * @throws EmailInvalidException is thrown if it is null or has >50 characters
+	 * @throws CityInvalidException is thrown if it is null or has >75 characters
+	 * @throws CountryInvalidException is thrown if it is null or has >25 characters
+	 * @throws PostalCodeInvalidException is thrown if >6 characters, ==6 & !valid or ==5 digits
+	 * @throws ProvinceInvalidException is thrown if it is null or has >2 characters
+	 * @throws ClientNameNotUniqueException 
+	 * @throws ClientDoesNotExistException 
+	 * @throws SQLException 
+	 */
+	public boolean validate(String name, String discount, String contact, String description) throws NameInvalidException, DiscountInvalidException, DescriptionInvalidException, DatabaseConnectionException, ClientNameNotUniqueException, ClientDoesNotExistException, SQLException
+	{
+		if(name == null || name.equals(""))
+			throw new NameInvalidException("An organization requires a name to identify it.");
+		if(name.length() > 50)
+			throw new NameInvalidException("An organizations name cannot excede 50 characters."); 
+		if(description != null && !description.equals(""))
+			if(description.length() > 400)
+				throw new DescriptionInvalidException("A description cannot excede 400 characters.");
+		
+		if(discount != null && !discount.equals(""))
+		{
+			try
+			{
+				Double disCount = Double.parseDouble(discount);
+				if(disCount < 0)
+					throw new DiscountInvalidException("A discount must be entered as a percentage value.<br />Between 0% and 100%.");
+				if(disCount > 100)
+					throw new DiscountInvalidException("A discount must be entered as a percentage value.<br />Between 0% and 100%.");
+			}
+			catch(NumberFormatException nfe)
+			{
+				throw new DiscountInvalidException("A discount must be entered in a numeric value.");
+			}
+		}
+		
+		ClientManager cm;
+		ArrayList<Client> clients = new ArrayList<Client>();
+		cm = new ClientManager();
+		clients = (ArrayList<Client>) cm.search(contact);
+		cm.close();
+			
+		if (clients.size() >1)
+		{
+			throw new ClientNameNotUniqueException("Client name must be unique. Use the dropdown to select a uniqe client name.");
+		}
+		else if (clients.size() <= 0)
+		{
+			throw new ClientDoesNotExistException("There is no client by this name in the system. Use the dropdown to select a client that exists.");
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Validates all fields of an organization object to ensure that the fields can be committed
+	 * to the database without error and users correctly inputed information for each field.
+	 * If a field is not valid a appropriate exception will be thrown
+	 * @param org is the organization object that holds information about the organization
+	 * @return true/false if the object is valid.
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 * @throws DiscountInvalidException is thrown if it is null, has <0 number or is not in
+	 * the proper number format
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws GivenNameInvalidException is thrown if it is null or has >65 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >63 characters
+	 * @throws AddressInvalidException is thrown if it is null or has >75 characters
+	 * @throws EmailInvalidException is thrown if it is null or has >50 characters
+	 * @throws CityInvalidException is thrown if it is null or has >75 characters
+	 * @throws CountryInvalidException is thrown if it is null or has >25 characters
+	 * @throws PostalCodeInvalidException is thrown if >6 characters, ==6 & !valid or ==5 digits
+	 * @throws ProvinceInvalidException is thrown if it is null or has >2 characters
+	 * @throws ClientDoesNotExistException 
+	 * @throws ClientNameNotUniqueException 
+	 * @throws SQLException 
+	 */
+	public boolean validate(Organization org) throws NameInvalidException, DiscountInvalidException, DescriptionInvalidException, DatabaseConnectionException, ClientNameNotUniqueException, ClientDoesNotExistException, SQLException
+	{
+		return this.validate(org.getName(), new Double(org.getDiscount()).toString(), org.getContact().getGivenName() + " " + org.getContact().getSurname(), org.getDescription());
+	}
+
+	/**
+	 * Searches the Database for matching organizations
+	 * @param query searches database based on query and returns specified information
+	 * @return a List of Organization objects that contain the search string.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws SQLException 
+	 */
+	public List<Organization> search(String query) throws DatabaseConnectionException, SQLException {
+		return ob.search(query);
+	}
+
+	
+	/**
+	 * Checks each of the name, discount, contact and description fields to ensure they
+	 * are valid, if any field is null, a appropriate exception will be thrown.
+	 * @param name is the name for the organization
+	 * @param discount is the discount for the organization
+	 * @param contact is the contact for the organization
+	 * @param description is the description for the organization
+	 * @return true/false if the object is valid.
+	 * @throws NumberFormatException is thrown if it is not in the proper number format
+	 * @throws NameInvalidException is thrown if it is null or has >30 characters
+	 * @throws DiscountInvalidException is thrown if it is null, has <0 number or is not in
+	 * the proper number format
+	 * @throws DescriptionInvalidException is thrown if it is null or has >400 characters
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws GivenNameInvalidException is thrown if it is null or has >65 characters
+	 * @throws SurnameInvalidException is thrown if it is null or has >63 characters
+	 * @throws AddressInvalidException is thrown if it is null or has >75 characters
+	 * @throws CityInvalidException is thrown if it is null or has >75 characters
+	 * @throws CountryInvalidException is thrown if it is null or has >25 characters
+	 * @throws PostalCodeInvalidException is thrown if >6 characters, ==6 & !valid or ==5 digits
+	 * @throws ProvinceInvalidException is thrown if it is null or has >2 characters
+	 * @throws ClientDoesNotExistException 
+	 * @throws ClientNameNotUniqueException 
+	 * @throws SQLException 
+	 */
+	public boolean save(int id, String name, String discount, String contact, String description) throws NameInvalidException, DiscountInvalidException, DescriptionInvalidException, DatabaseConnectionException, ClientNameNotUniqueException, ClientDoesNotExistException, SQLException 
+	{
+		Organization org = null;
+		
+		if(this.validate(name, discount, contact, description)) {
+			ClientManager cm;
+			ArrayList<Client> clients = new ArrayList<Client>();
+			cm = new ClientManager();
+			clients = (ArrayList<Client>) cm.search(contact);
+			cm.close();
+			org = new Organization(id, name, Double.parseDouble(discount), clients.get(0), description);
+		}
+		
+		return ob.persist(org);
+	}
+
+	/**
+	 * Deletes information from organization table where organization_id = organization_getId
+	 * If id does not exist a exception will be thrown
+	 * @param org is the organization object that holds information about the organization
+	 * @return true/false if the object is valid.
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 */
+	public boolean remove(Organization org) throws DatabaseConnectionException 
+	{
+		return ob.remove(org);
+	}
+	
+	/**
+	 * closes Database Connection
+	 */
+	public void close() {
+		ob.close();
+	}
+	
+	/**
+	 * Gets organization list from organization table
+	 * @return requested information found in the database in a list
+	 * @throws DatabaseConnectionException is thrown if DB connection fails
+	 * @throws SQLException 
+	 */
+	public List<Organization> getOrgList() throws DatabaseConnectionException, SQLException {
+		return ob.getOrgList();
+	}
+	
+	public Organization getOrgInfo(int id) throws DatabaseConnectionException, SQLException
+	{
+		return ob.getOrganizationInformation(id);
+	}
+
+	//SERVLET METHODS BELOW
+       
+    /**
+     * Gets the current broker instance
+     * @throws DatabaseConnectionException is thrown if DB connection fails
+     * @see HttpServlet#HttpServlet()
+     */
+    public OrganizationManager() throws DatabaseConnectionException {
+		ob = OrganizationBroker.getBroker();
+    }
+
+	/**
+	 * Gets request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if an error occurs
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	/**
+	 * Posts request and response for HttpServletRequest and HttpServletResponse, throws
+	 * exceptions if an error occurs
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+}

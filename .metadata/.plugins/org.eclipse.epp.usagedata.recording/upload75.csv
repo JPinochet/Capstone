@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266639793625
+closed,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266639793625
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266639798484
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266639798562
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1266639805218
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1266639806812
+closed,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266639806812
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639819984
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639880859
+executed,command,org.tigris.subversion.subclipse.ui,1.6.7,"org.tigris.subversion.subclipse.ui.commit",1266639880937
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639881234
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639882015
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639889156
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639896843
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639901015
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639972156
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639974312
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639975343
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266639981640
+error,log,,,"Ignoring template 'getterbody' since validation failed.",1266640003218
+error,log,,,"Ignoring template 'setterbody' since validation failed.",1266640003218
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266640003625
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266640003765
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1266640003843
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1266640017390

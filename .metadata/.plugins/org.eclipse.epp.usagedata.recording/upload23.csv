@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1266332511703
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1266332511703
+java.vm.specification.version,sysinfo,,,"1.0",1266332511703
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1266332511703
+java.vm.version,sysinfo,,,"14.2-b01",1266332511703
+started,bundle,org.eclipse.dltk.core,1.0.1.v20090910-1601,"org.eclipse.dltk.core",1266332512328
+started,bundle,org.eclipse.debug.core,3.5.0.v20090526-1600,"org.eclipse.debug.core",1266332512656
+started,bundle,org.eclipse.dltk.launching,1.0.1.v20090910-1601,"org.eclipse.dltk.launching",1266332512687
+started,bundle,org.eclipse.dltk.ui,1.0.1.v20090903-2153,"org.eclipse.dltk.ui",1266332512718
+started,bundle,org.eclipse.php.debug.daemon,2.1.1.v20090707-1108,"org.eclipse.php.debug.daemon",1266332512718
+started,bundle,org.eclipse.mylyn.monitor.ui,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.monitor.ui",1266332513000
+started,bundle,org.eclipse.mylyn.commons.net,3.3.0.v20091013-0200-e3x,"org.eclipse.mylyn.commons.net",1266332513406
+started,bundle,org.eclipse.debug.ui,3.5.1.v20090811_r351,"org.eclipse.debug.ui",1266332514187
+started,bundle,org.eclipse.php.server.core,2.1.1.v20090707-1108,"org.eclipse.php.server.core",1266332514203
+started,bundle,org.eclipse.mylyn.commons.ui,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.commons.ui",1266332514375
+started,bundle,org.eclipse.php.core,2.1.1.v20090914-1400,"org.eclipse.php.core",1266332514656
+started,bundle,org.eclipse.mylyn.bugzilla.core,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.bugzilla.core",1266332515468
+started,bundle,org.eclipse.mylyn.bugzilla.ui,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.bugzilla.ui",1266332515843
+started,bundle,org.eclipse.jsch.core,1.1.100.I20090430-0408,"org.eclipse.jsch.core",1266332516046
+started,bundle,org.eclipse.team.cvs.core,3.3.200.I20090430-0408,"org.eclipse.team.cvs.core",1266332516046
+started,bundle,org.eclipse.ui.forms,3.4.1.v20090714_35x,"org.eclipse.ui.forms",1266332516515
+started,bundle,org.eclipse.team.ui,3.5.0.I20090430-0408,"org.eclipse.team.ui",1266332516593
+started,bundle,org.eclipse.php.debug.ui,2.1.1.v20090714-1338,"org.eclipse.php.debug.ui",1266332516609
+started,bundle,org.eclipse.mylyn.context.core,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.context.core",1266332516718
+started,bundle,org.eclipse.wst.sse.ui,1.1.101.v200908261807,"org.eclipse.wst.sse.ui",1266332516937

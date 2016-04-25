@@ -1,0 +1,61 @@
+#schedule {
+	padding: 10px 0px;
+	margin: 0px auto;
+}
+
+#schedule table {
+	color: black;
+	border: thin solid black;
+	border-collapse: collapse;
+	margin: 0px auto;
+}
+
+#schedule .closed {
+	background-color: #E9C2A6; /*#A66900;*/
+	border: thin solid black;
+} 
+
+#schedule .open {
+	background-color: #FFEFDB; /*#EECFA1*/
+	border: thin solid black;
+	cursor: pointer;
+}
+
+#schedule .unpaidBooking {
+	background-color: #FF3030; /*#FF7256; /*#EE6363;*/
+	border: thin solid black;
+	cursor: pointer;
+}
+
+#schedule .paidBooking{
+	background-color: #84BE6A;	/*#D4ED91;*/
+	border: thin solid black;
+	cursor: pointer;
+}
+
+#schedule .time td {	
+	background:#FFAA73; /*#FFCB73;*/
+	min-width: 5px;
+}
+
+#schedule .hourBorder {
+	border-left: thin solid black;
+}
+
+#schedule .halfHourBorder {
+	border-left:thin dashed black;
+}
+
+#schedule .am {
+	background-color:  #FFE373; /*#B2DFEE;*/
+	border: thin solid black;
+}
+
+#schedule .pm {
+	background-color: #FFE373; /*#00688B;*/
+	border: thin solid black;
+}
+
+#schedule td{
+	padding: 5px;
+}

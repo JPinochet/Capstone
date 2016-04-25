@@ -1,0 +1,163 @@
+<%@page import="logic.EmployeeManager,problemDomain.Facility,java.util.ArrayList,java.util.List,logic.FacilityManager,logic.RateManager,logic.AdditionalChargeManager,exceptions.*,problemDomain.Rate,problemDomain.AdditionalCharge" %>
+<%
+	EmployeeManager em = new EmployeeManager();
+
+	if(session.getAttribute("user") == null || em.getEmployeeInfo((Integer)session.getAttribute("user")) == null)
+	{
+		response.sendRedirect("index.jsp?error=main&message=Not Logged In!!");
+		em.close();
+		return;
+	}
+	em.close();
+%>
+<% 
+FacilityManager fm = new FacilityManager();
+
+Facility facility= new Facility();
+
+int facility_id = 0;
+String name = "";
+int openingTime = 0;
+int closingTime = 0;
+int setupTime = 0;
+int teardownTime = 0;
+int capacity = 0;
+int length = 0;
+int minInterval = 0;
+
+if(request.getParameter("facility") != null) {
+	facility = fm.getFacilityInfo(Integer.parseInt(request.getParameter("facility")));
+	fm.close();
+	
+	facility_id = facility.getId();
+	name = (facility.getName()==null)?"":facility.getName();
+	openingTime = facility.getOpenTime();
+	closingTime = facility.getCloseTime();
+	setupTime = facility.getSetupTime();
+	teardownTime = facility.getTearDownTime();
+	capacity = facility.getMaxCapacity();
+	length = facility.getMinBookingTime();
+	minInterval = facility.getMinBookingInterval();
+}
+
+if(request.getParameter("error") != null) {
+	//0-id, 1-openTime, 2-closeTime, 3-setupTime, 4-tearDownTime, 5-name, 6-maxCapacity, 7-minInterval, 8-minBookingTime
+	ArrayList<String> errorText = (ArrayList<String>) session.getAttribute("errorText");
+	
+	facility_id = Integer.parseInt(errorText.get(0));
+	name = (errorText.get(5)==null)?"":errorText.get(5);
+	openingTime = (errorText.get(1)=="")?0:Integer.parseInt(errorText.get(1));
+	closingTime = (errorText.get(2)=="")?0:Integer.parseInt(errorText.get(2));
+	setupTime = (errorText.get(3)=="")?0:Integer.parseInt(errorText.get(3));
+	teardownTime = (errorText.get(4)=="")?0:Integer.parseInt(errorText.get(4));
+	capacity = (errorText.get(6)=="")?0:Integer.parseInt(errorText.get(6));
+	length = (errorText.get(8)=="")?0:Integer.parseInt(errorText.get(8));
+	minInterval = (errorText.get(7)=="")?0:Integer.parseInt(errorText.get(7));
+%>
+	<script type="text/javascript" >
+		$(document).ready(function() {
+			$('label[for=<%= session.getAttribute("errorField") %>]').parent().parent().addClass("error");
+		});
+	</script>
+<%
+}
+%>
+<link href="css/form.css" rel="stylesheet"  type="text/css" media="screen" />
+<style>
+	<!--
+	.cssForm .leftDiv{
+		width:47%;
+	}
+	-->
+</style>
+<form action="FacilityManager?do=manage" method="post" class="cssForm">
+	<div style="width: 600px">
+	<% if(request.getParameter("error") != null) { %>
+		<div id="errorDesc">
+			<%= session.getAttribute("errorMessage") %>
+		</div>
+	<% } %>
+		<div style="width:54%;float:left;padding-right:1%">
+			<fieldset> 
+				<legend><strong>Facility Details</strong></legend>
+				<div class="field"><div class="leftDiv"><label for="name">Name:</label></div><div class="rightDiv"><input type="text" name="name" size="15" value="<%= name %>" />*</div></div>
+				<div class="field"><div class="leftDiv"><label for="open">Opening Time:</label></div><div class="rightDiv"><input type="text" name="open" size="4" value="<%= openingTime %>" /> * HH (24h)</div></div>
+				<div class="field"><div class="leftDiv"><label for="close">Closing Time:</label></div><div class="rightDiv"><input type="text" name="close" size="4" value="<%= closingTime %>" /> * HH (24h)</div></div>
+				<div class="field"><div class="leftDiv"><label for="setup">Min. Setup Time:</label></div><div class="rightDiv"><input type="text" name="setup" size="4" value="<%= setupTime %>" /> min</div></div>
+				<div class="field"><div class="leftDiv"><label for="teardown">Min. Tear-down Time:</label></div><div class="rightDiv"><input type="text" name="teardown" size="4" value="<%= teardownTime %>" /> min</div></div>
+				<div class="field"><div class="leftDiv"><label for="capacity">Max Capacity:</label></div><div class="rightDiv"><input type="text" name="capacity" size="3" maxlength="4" value="<%= capacity %>" /></div></div>
+				<div class="field"><div class="leftDiv"><label for="length">Min. Booking Length:</label></div><div class="rightDiv"><input type="text" name="length" size="4" value="<%= length %>" /> min</div></div>
+				<div class="field"><div class="leftDiv"><label for="minInterval">Min. Booking Intervals:</label></div><div class="rightDiv"><input type="text" name="minInterval" size="4" value="<%= minInterval %>" /> min</div></div>
+			</fieldset>
+		</div>
+		
+		<div style="float:right;width:45%">
+			<fieldset> 
+				<legend><strong>Rates</strong></legend>
+				<select name="rates" size="5" style="width:100%" multiple="multiple">
+				<%
+						RateManager rm = new RateManager();
+						ArrayList<Rate> rates = new ArrayList<Rate>();
+						ArrayList<Rate> selectedRates = (request.getParameter("facility") != null)?(ArrayList) facility.getRates():(ArrayList) session.getAttribute("rates");
+						try {
+							rates = (ArrayList<Rate>) rm.getRateList();
+						} catch(DatabaseConnectionException e) {
+							e.printStackTrace();
+						}
+					    for (int i = 0; i < rates.size(); i++) {
+					    	String selected="";
+					    	if(request.getParameter("facility") != null || request.getParameter("error") != null) {
+						    	for(int j = 0; j < selectedRates.size(); j++) {
+						    		if( selectedRates.get(j).getId() == rates.get(i).getId() ){
+						    			selected=" selected=\"selected\"";
+						    		}
+						    	}
+					    	}
+					    
+					%>
+					<option value="<%= rates.get(i).getId() %>"<%= selected %>><%= rates.get(i).getName() %></option>
+					<% 	
+						} 
+					    rm.close();
+					%>
+				</select></fieldset>
+			<fieldset> 
+				<legend><strong>Additional Charges</strong></legend>
+				<select name="addCharges" size="5" style="width:100%" multiple="multiple">
+					<%
+						AdditionalChargeManager acm = new AdditionalChargeManager();
+						ArrayList<AdditionalCharge> acs = new ArrayList<AdditionalCharge>();
+						ArrayList<AdditionalCharge> selectedAcs = (request.getParameter("facility") != null)?(ArrayList) facility.getAdditionalCharges():(ArrayList) session.getAttribute("acs");
+						try {
+							acs = (ArrayList<AdditionalCharge>) acm.getAdditionalChargeList();
+						} catch(DatabaseConnectionException e) {
+							e.printStackTrace();
+						}
+					    for (int i = 0; i < acs.size(); i++) {
+					    	String selected="";
+					    	if(request.getParameter("facility") != null || request.getParameter("error") != null) {
+						    	for(int j = 0; j < selectedAcs.size(); j++) {
+						    		if( selectedAcs.get(j).getId() == acs.get(i).getId() ){
+						    			selected=" selected=\"selected\"";
+						    		}
+						    	}
+					    	}
+					    
+					%>
+					<option value="<%= acs.get(i).getId() %>"<%= selected %>><%= acs.get(i).getName() %></option>
+					<% 	
+						} 
+					    acm.close();
+					%>
+				</select>
+			</fieldset>
+		</div>
+		
+		<div style="clear:both;text-align:right;padding-top:10px">
+			<input type="hidden" name="id" value="<%= facility_id %>" />
+			<!-- <input type="reset" value="Reset" /> -->
+			<input type="submit" name="save" value="Save" />
+			<input type="submit" name="delete" value="Delete" />
+		</div>
+	</div>
+</form>

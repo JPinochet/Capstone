@@ -1,0 +1,114 @@
+package persistence;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import problemDomain.AdditionalCharge;
+
+public class AdditionalChargeBroker implements Broker {
+	private Database db = new Database();
+	private static AdditionalChargeBroker broker;
+	
+	private AdditionalChargeBroker() {
+		if (!db.connect("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/indusdb", "indusdb", "DrqTAhbG9HaVzL64"))
+			System.exit(-1);
+	}
+	
+	/**
+	 * Gets the broker instance
+	 * @return The current broker instance
+	 */
+	public static AdditionalChargeBroker getBroker() {
+		if (broker == null) {
+			broker = new AdditionalChargeBroker();
+		}
+		return broker;
+	}
+	
+	/* (non-Javadoc)
+	 * @see persistence.Broker#close()
+	 */
+	public void close() {
+		db.close();
+		broker = null;
+	}
+	
+	/* (non-Javadoc)
+	 * @see persistence.Broker#getAll()
+	 */
+	public List<AdditionalCharge> getAll() {
+		String query = "SELECT * FROM additional_charge";
+		ResultSet result = db.select(query);
+		
+		ArrayList<AdditionalCharge> additionalCharges = new ArrayList<AdditionalCharge>();
+		
+		try {
+			while (result.next()) {
+				int id = result.getInt("additional_charge_id");
+				String name = result.getString("name");
+				double cost = result.getDouble("cost");
+				
+				AdditionalCharge ac = new AdditionalCharge(id, name, cost);
+				
+				additionalCharges.add(ac);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return additionalCharges;
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see persistence.Broker#persist(java.lang.Object)
+	 */
+	public boolean persist(Object o) {
+		AdditionalCharge ac = (AdditionalCharge) o;
+		
+		String query;
+		
+		if (ac.getId() != -1) {
+			query = "UPDATE additional_charge SET cost='" + ac.getCost() + "', name='" + ac.getName() + "' WHERE additional_charge_id='" + ac.getId() + "'";
+			db.update(query);
+		} else {
+			query = "INSERT INTO additional_charge VALUES('0', '" + ac.getName() + "', '" + ac.getCost() + "')";
+		}
+		
+		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see persistence.Broker#remove(java.lang.Object)
+	 */
+	public boolean remove(Object o) {
+		AdditionalCharge ac = (AdditionalCharge) o;
+		String query;
+		
+		query = "DELETE FROM additional_charge WHERE additional_charge_id='" + ac.getId() + "'";
+		db.update(query);
+		return true;
+	}
+	
+	public AdditionalCharge getAdditionalChargeInformation(int id) {
+		String query = "SELECT * FROM additional_charge WHERE additional_charge_id='" + id + "' LIMIT 1";
+		ResultSet result = db.select(query);
+		
+		AdditionalCharge additionalCharge = null;
+		
+		try {
+			while (result.next()) {
+				String name = result.getString("name");
+				double cost = result.getDouble("cost");
+				
+				additionalCharge = new AdditionalCharge(id, name, cost);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return additionalCharge;
+	}
+}
